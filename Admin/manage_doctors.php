@@ -49,87 +49,87 @@ $cities = $conn->query("SELECT * FROM cities");
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Custom -->
-  <link rel="stylesheet" href="../assets/css/theme.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-<?php include '../components/adminComp/header.php'; ?>
+<body class="bg-light">
 
-<div class="container py-5">
-  <h2 class="text-primary fw-bold mb-4">Manage Doctors</h2>
+<div class="d-flex">
+  <?php include '../components/adminComp/sidebar.php'; ?>
 
-  <?php if ($success): ?>
-    <div class="alert alert-success"><?= $success ?></div>
-  <?php endif; ?>
-  <?php if ($error): ?>
-    <div class="alert alert-danger"><?= $error ?></div>
-  <?php endif; ?>
+  <div id="page-content" class="flex-grow-1 p-4">
+    <h2 class="text-danger fw-bold mb-4">Manage Doctors</h2>
 
-  <!-- Add Doctor Form -->
-  <form method="POST" class="row g-3 mb-5">
-    <div class="col-md-4">
-      <input type="text" name="name" class="form-control" placeholder="Doctor Name" required>
-    </div>
-    <div class="col-md-4">
-      <input type="email" name="email" class="form-control" placeholder="Doctor Email" required>
-    </div>
-    <div class="col-md-4">
-      <input type="text" name="phone" class="form-control" placeholder="Phone" required>
-    </div>
-    <div class="col-md-6">
-      <input type="text" name="specialization" class="form-control" placeholder="Specialization" required>
-    </div>
-    <div class="col-md-6">
-      <select name="city_id" class="form-select" required>
-        <option value="">Select City</option>
-        <?php while ($row = $cities->fetch_assoc()): ?>
-          <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
-        <?php endwhile; ?>
-      </select>
-    </div>
-    <div class="col-md-12">
-      <input type="text" name="availability" class="form-control" placeholder="Availability (e.g. Mon, Wed, Fri: 9AM–5PM)" required>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-success w-100">Add Doctor</button>
-    </div>
-  </form>
+    <?php if ($success): ?>
+      <div class="alert alert-success"><?= $success ?></div>
+    <?php endif; ?>
+    <?php if ($error): ?>
+      <div class="alert alert-danger"><?= $error ?></div>
+    <?php endif; ?>
 
-  <!-- Doctors Table -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="table-primary">
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Specialization</th>
-          <th>City</th>
-          <th>Availability</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $i = 1; while ($doc = $doctors->fetch_assoc()): ?>
-        <tr>
-          <td><?= $i++ ?></td>
-          <td><?= htmlspecialchars($doc['name']) ?></td>
-          <td><?= htmlspecialchars($doc['email']) ?></td>
-          <td><?= htmlspecialchars($doc['phone']) ?></td>
-          <td><?= htmlspecialchars($doc['specialization']) ?></td>
-          <td><?= htmlspecialchars($doc['city_name']) ?></td>
-          <td><?= htmlspecialchars($doc['availability']) ?></td>
-          <td>
-            <a href="?delete=<?= $doc['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete doctor?')">
-              <i class="fas fa-trash-alt"></i>
-            </a>
-          </td>
-        </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+    <!-- Add Doctor Form -->
+    <form method="POST" class="row g-3 mb-5">
+      <div class="col-md-4">
+        <input type="text" name="name" class="form-control" placeholder="Doctor Name" required>
+      </div>
+      <div class="col-md-4">
+        <input type="email" name="email" class="form-control" placeholder="Doctor Email" required>
+      </div>
+      <div class="col-md-4">
+        <input type="text" name="phone" class="form-control" placeholder="Phone" required>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="specialization" class="form-control" placeholder="Specialization" required>
+      </div>
+      <div class="col-md-6">
+        <select name="city_id" class="form-select" required>
+          <option value="">Select City</option>
+          <?php while ($row = $cities->fetch_assoc()): ?>
+            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+          <?php endwhile; ?>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <input type="text" name="availability" class="form-control" placeholder="Availability (e.g. Mon, Wed, Fri: 9AM–5PM)" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-danger w-100">Add Doctor</button>
+      </div>
+    </form>
+
+    <!-- Doctors Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-danger">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Specialization</th>
+            <th>City</th>
+            <th>Availability</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $i = 1; while ($doc = $doctors->fetch_assoc()): ?>
+          <tr>
+            <td><?= $i++ ?></td>
+            <td><?= htmlspecialchars($doc['name']) ?></td>
+            <td><?= htmlspecialchars($doc['email']) ?></td>
+            <td><?= htmlspecialchars($doc['phone']) ?></td>
+            <td><?= htmlspecialchars($doc['specialization']) ?></td>
+            <td><?= htmlspecialchars($doc['city_name']) ?></td>
+            <td><?= htmlspecialchars($doc['availability']) ?></td>
+            <td>
+              <a href="?delete=<?= $doc['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete doctor?')">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

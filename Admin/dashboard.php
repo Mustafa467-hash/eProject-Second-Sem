@@ -1,119 +1,155 @@
 <?php
 require_once '../includes/db.php';
 require_once '../includes/auth.php';
-require_once '../includes/helpers.php';
 
-
-$city_count = $conn->query("SELECT COUNT(*) as total FROM cities")->fetch_assoc()['total'];
+// Fetch counts
 $doctor_count = $conn->query("SELECT COUNT(*) as total FROM doctors")->fetch_assoc()['total'];
+$city_count = $conn->query("SELECT COUNT(*) as total FROM cities")->fetch_assoc()['total'];
 $patient_count = $conn->query("SELECT COUNT(*) as total FROM patients")->fetch_assoc()['total'];
 $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")->fetch_assoc()['total'];
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard | Care Group</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f1f1f1;
+    }
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    .main {
+      flex-grow: 1;
+      padding: 20px;
+    }
 
-  <!-- Theme and Custom CSS -->
-  <link rel="stylesheet" href="../assets/css/theme.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
-  
-  <!-- AOS Animation Library -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    .sidebar {
+      width: 250px;
+      /* or whatever your sidebar width is */
+      flex-shrink: 0;
+    }
+
+    .main {
+      margin-left: 250px;
+      /* same width as the sidebar */
+    }
+
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      padding: 20px;
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card i {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .card span {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* Gradient backgrounds */
+    .doc-card {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+    }
+
+    .city-card {
+      background: linear-gradient(to right, #43e97b, #38f9d7);
+    }
+
+    .patient-card {
+      background: linear-gradient(to right, #fa709a, #fee140);
+    }
+
+    .appointment-card {
+      background: linear-gradient(to right, #667eea, #764ba2);
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      padding: 10px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
 </head>
-<body class="bg-light">
 
-  <?php include '../components/adminComp/header.php'; ?>
+<body>
 
-  <div class="container py-5">
-    <div class="text-center mb-4" data-aos="fade-down">
-      <h1 class="text-primary fw-bold">Admin Dashboard</h1>
-      <p class="text-secondary">Here’s a quick overview of your control panel.</p>
-    </div>
+<!-- Sidebar Toggle Button (visible only on small screens) -->
+<button class="btn btn-danger m-3 d-md-none" id="toggleSidebar">
+  <i class="fas fa-bars"></i>
+</button>
 
-    <div class="row g-4 mb-5">
-      <!-- Doctors -->
-      <div class="col-md-4" data-aos="zoom-in">
-        <div class="card bg-primary text-white shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-user-md me-2"></i>Doctors</h5>
-            <p class="display-6">
-              <?php
-              $query = "SELECT COUNT(*) as total FROM doctors";
-              $result = mysqli_query($conn, $query);
-              $row = mysqli_fetch_assoc($result);
-              echo $row['total'];
-              ?>
-            </p>
-          </div>
+  <div class="d-flex">
+    <?php include '../components/adminComp/sidebar.php'; ?>
+
+    <div class="main">
+      <h1 class="mb-4">Dashboard</h1>
+      <div class="cards-container">
+        <div class="card doc-card">
+          <i class="fas fa-user-md"></i>
+          <h3>Total Doctors</h3>
+          <span><?= $doctor_count ?></span>
+        </div>
+        <div class="card city-card">
+          <i class="fas fa-city"></i>
+          <h3>Total Cities</h3>
+          <span><?= $city_count ?></span>
+        </div>
+        <div class="card patient-card">
+          <i class="fas fa-procedures"></i>
+          <h3>Total Patients</h3>
+          <span><?= $patient_count ?></span>
+        </div>
+        <div class="card appointment-card">
+          <i class="fas fa-calendar-check"></i>
+          <h3>Total Appointments</h3>
+          <span><?= $appointment_count ?></span>
         </div>
       </div>
 
-      <!-- Patients -->
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
-        <div class="card bg-success text-white shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-users me-2"></i>Patients</h5>
-            <p class="display-6">
-              <?php
-              $query = "SELECT COUNT(*) as total FROM patients";
-              $result = mysqli_query($conn, $query);
-              $row = mysqli_fetch_assoc($result);
-              echo $row['total'];
-              ?>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Appointments -->
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-        <div class="card bg-warning text-white shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-calendar-check me-2"></i>Appointments</h5>
-            <p class="display-6">
-              <?php
-              $query = "SELECT COUNT(*) as total FROM appointments";
-              $result = mysqli_query($conn, $query);
-              $row = mysqli_fetch_assoc($result);
-              echo $row['total'];
-              ?>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="text-center" data-aos="fade-up">
-      <h2 class="text-primary fw-semibold">Quick Actions</h2>
-      <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
-        <a href="manage_doctors.php" class="btn btn-outline-primary"><i class="fas fa-user-md"></i> Manage Doctors</a>
-        <a href="manage_patients.php" class="btn btn-outline-success"><i class="fas fa-users"></i> Manage Patients</a>
-        <a href="manage_cities.php" class="btn btn-outline-secondary"><i class="fas fa-city"></i> Manage Cities</a>
-        <a href="manage_users.php" class="btn btn-outline-danger"><i class="fas fa-user-cog"></i> Manage Logins</a>
-      </div>
+      <?php include '../components/adminComp/footer.php'; ?>
     </div>
   </div>
 
-  <?php include '../components/adminComp/footer.php'; ?>
-
-  <!-- Scripts -->
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init();
-  </script>
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.querySelector('.sidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('d-none');
+  });
+</script>
+
 </body>
+
 </html>
- 
