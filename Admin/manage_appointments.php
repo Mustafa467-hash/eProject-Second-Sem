@@ -2,15 +2,45 @@
 require_once '../includes/db.php';
 require_once '../includes/auth.php';
 
-// Delete appointment
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $stmt = $conn->prepare("DELETE FROM appointments WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-}
-?>
+// Handle filters
+$filter_doctor = isset($_GET['doctor']) ? $_GET['doctor'] : '';
+$filter_patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+$filter_status = isset($_GET['status']) ? $_GET['status'] : '';
 
+// Fetch doctors and patients for filter dropdowns
+$doctors = $conn->query("SELECT id, name FROM doctors ORDER BY name ASC");
+$patients = $conn->query("SELECT id, name FROM patients ORDER BY name ASC");
+
+// Build SQL with filters
+$sql = "
+SELECT 
+  a.id, 
+  d.name AS doctor_name, 
+  p.name AS patient_name, 
+  a.appointment_date, 
+  a.appointment_time, 
+  a.status, 
+  a.created_at
+FROM 
+  appointments a
+JOIN doctors d ON a.doctor_id = d.id
+JOIN patients p ON a.patient_id = p.id
+WHERE 1=1
+";
+
+if (!empty($filter_doctor)) {
+    $sql .= " AND a.doctor_id = " . intval($filter_doctor);
+}
+if (!empty($filter_patient)) {
+    $sql .= " AND a.patient_id = " . intval($filter_patient);
+}
+if (!empty($filter_status)) {
+    $sql .= " AND a.status = '" . $conn->real_escape_string($filter_status) . "'";
+}
+
+$sql .= " ORDER BY a.appointment_date DESC";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,52 +93,96 @@ if (isset($_GET['delete'])) {
   <!-- Page Content -->
   <div id="page-content" class="flex-grow-1 p-4">
 
-
-    <h2 class="text-danger fw-bold mb-4">Manage Appointments</h2>
-
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title fw-semibold">Appointment List</h5>
-        <table class="table table-bordered table-hover mt-3">
-          <thead class="table-danger">
-            <tr>
-              <th>ID</th>
-              <th>Patient Name</th>
-              <th>Age</th>
-              <th>Appointment Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $sql = "SELECT a.id, p.name AS patient_name, p.age, a.appointment_date
-                    FROM appointments a
-                    JOIN patients p ON a.patient_id = p.id
-                    ORDER BY a.id DESC";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>{$row['id']}</td>
-                            <td>{$row['patient_name']}</td>
-                            <td>{$row['age']}</td>
-                            <td>{$row['appointment_date']}</td>
-                            <td>
-                              <a href='?delete={$row['id']}' onclick='return confirm(\"Delete this appointment?\")' class='btn btn-sm btn-danger'>
-                                <i class='fas fa-trash'></i>
-                              </a>
-                            </td>
-                          </tr>";
-                }
-            } else {
-                echo "<tr><td colspan='5' class='text-center text-muted'>No appointments found.</td></tr>";
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
+<form method="GET" class="mb-4 d-flex flex-wrap gap-2 align-items-end">
+  <div>
+    <label>Doctor:</label>
+    <select name="doctor" class="form-select">
+      <option value="">All Doctors</option>
+      <?php while ($doc = $doctors->fetch_assoc()) { ?>
+        <option value="<?php echo $doc['id']; ?>" <?php if ($filter_doctor == $doc['id']) echo 'selected'; ?>>
+          <?php echo htmlspecialchars($doc['name']); ?>
+        </option>
+      <?php } ?>
+    </select>
   </div>
+
+  <div>
+    <label>Patient:</label>
+    <select name="patient" class="form-select">
+      <option value="">All Patients</option>
+      <?php while ($pat = $patients->fetch_assoc()) { ?>
+        <option value="<?php echo $pat['id']; ?>" <?php if ($filter_patient == $pat['id']) echo 'selected'; ?>>
+          <?php echo htmlspecialchars($pat['name']); ?>
+        </option>
+      <?php } ?>
+    </select>
+  </div>
+
+  <div>
+    <label>Status:</label>
+    <select name="status" class="form-select">
+      <option value="">All Statuses</option>
+      <option value="pending" <?php if ($filter_status == 'pending') echo 'selected'; ?>>Pending</option>
+      <option value="confirmed" <?php if ($filter_status == 'confirmed') echo 'selected'; ?>>Confirmed</option>
+      <option value="completed" <?php if ($filter_status == 'completed') echo 'selected'; ?>>Completed</option>
+      <option value="cancelled" <?php if ($filter_status == 'cancelled') echo 'selected'; ?>>Cancelled</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary">Apply Filters</button>
+    <a href="manage_appointments.php" class="btn btn-secondary">Reset</a>
+  </div>
+</form>
+
+<!-- Appointments Table -->
+<table class="table table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Doctor</th>
+      <th>Patient</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Status</th>
+      <th>Created At</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php if ($result->num_rows > 0): ?>
+      <?php while ($row = $result->fetch_assoc()) { ?>
+        <tr>
+          <td><?php echo $row['id']; ?></td>
+          <td><?php echo htmlspecialchars($row['doctor_name']); ?></td>
+          <td><?php echo htmlspecialchars($row['patient_name']); ?></td>
+          <td><?php echo $row['appointment_date']; ?></td>
+          <td><?php echo date('h:i A', strtotime($row['appointment_time'])); ?></td>
+          <td>
+            <span class="badge bg-<?php
+              switch ($row['status']) {
+                case 'pending': echo 'warning'; break;
+                case 'confirmed': echo 'primary'; break;
+                case 'completed': echo 'success'; break;
+                case 'cancelled': echo 'danger'; break;
+              }
+            ?>">
+              <?php echo ucfirst($row['status']); ?>
+            </span>
+          </td>
+          <td><?php echo date('d M Y, h:i A', strtotime($row['created_at'])); ?></td>
+          <td>
+            <a href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Delete this appointment?')" class="btn btn-sm btn-danger">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+        </tr>
+      <?php } ?>
+    <?php else: ?>
+      <tr><td colspan="8" class="text-center">No appointments found.</td></tr>
+    <?php endif; ?>
+  </tbody>
+</table>
 </div>
 
 <!-- Scripts -->

@@ -15,14 +15,25 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
 <head>
   <meta charset="UTF-8">
   <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-    
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f1f1f1;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
     }
 
     .main {
@@ -32,15 +43,13 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
 
     .sidebar {
       width: 250px;
-      /* or whatever your sidebar width is */
       flex-shrink: 0;
+      background-color: #fff;
     }
 
     .main {
       margin-left: 250px;
-      /* same width as the sidebar */
     }
-
 
     .cards-container {
       display: grid;
@@ -73,7 +82,6 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
       font-weight: bold;
     }
 
-    /* Gradient backgrounds */
     .doc-card {
       background: linear-gradient(to right, #4facfe, #00f2fe);
     }
@@ -91,65 +99,103 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
     }
 
     footer {
-      margin-top: 50px;
       text-align: center;
       padding: 10px;
       color: #777;
       font-size: 14px;
+      background-color: #f1f1f1;
+    }
+
+    .toggle-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        padding-top: 60px;
+      }
+
+      .toggle-btn {
+        display: inline-block;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin: 15px;
+        z-index: 1100;
+        position: relative;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<!-- Sidebar Toggle Button (visible only on small screens) -->
-<button class="btn btn-danger m-3 d-md-none" id="toggleSidebar">
-  <i class="fas fa-bars"></i>
-</button>
 
-  <div class="d-flex">
-    <?php include '../components/adminComp/sidebar.php'; ?>
 
-    <div class="main">
-      <h1 class="mb-4">Dashboard</h1>
-      <div class="cards-container">
-        <div class="card doc-card">
-          <i class="fas fa-user-md"></i>
-          <h3>Total Doctors</h3>
-          <span><?= $doctor_count ?></span>
-        </div>
-        <div class="card city-card">
-          <i class="fas fa-city"></i>
-          <h3>Total Cities</h3>
-          <span><?= $city_count ?></span>
-        </div>
-        <div class="card patient-card">
-          <i class="fas fa-procedures"></i>
-          <h3>Total Patients</h3>
-          <span><?= $patient_count ?></span>
-        </div>
-        <div class="card appointment-card">
-          <i class="fas fa-calendar-check"></i>
-          <h3>Total Appointments</h3>
-          <span><?= $appointment_count ?></span>
-        </div>
+<div class="main-wrapper">
+  <?php include '../components/adminComp/sidebar.php'; ?>
+
+  <div class="main">
+    <h1 class="mb-4">Dashboard</h1>
+    <div class="cards-container">
+      <div class="card doc-card">
+        <i class="fas fa-user-md"></i>
+        <h3>Total Doctors</h3>
+        <span><?= $doctor_count ?></span>
       </div>
-
-      <?php include '../components/adminComp/footer.php'; ?>
+      <div class="card city-card">
+        <i class="fas fa-city"></i>
+        <h3>Total Cities</h3>
+        <span><?= $city_count ?></span>
+      </div>
+      <div class="card patient-card">
+        <i class="fas fa-procedures"></i>
+        <h3>Total Patients</h3>
+        <span><?= $patient_count ?></span>
+      </div>
+      <div class="card appointment-card">
+        <i class="fas fa-calendar-check"></i>
+        <h3>Total Appointments</h3>
+        <span><?= $appointment_count ?></span>
+      </div>
     </div>
+
+   
   </div>
+</div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-  const toggleBtn = document.getElementById('toggleSidebar');
-  const sidebar = document.querySelector('.sidebar');
-
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('d-none');
-  });
+<footer class="bg-dark text-white text-center py-3 mt-5 mb-0">
+  <div class="container">
+    <p class="mb-0">&copy; <?= date('Y') ?> Care Group. All rights reserved.</p>
+  </div>
+</footer>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+  }
 </script>
 
 </body>
-
 </html>

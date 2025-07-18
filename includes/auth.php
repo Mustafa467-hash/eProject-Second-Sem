@@ -1,37 +1,13 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+session_start();
+
+// Block access if not logged in
+if (!isset($_SESSION['isadmin']) || $_SESSION['isadmin'] !== true) {
+    header("Location: login.php");
+    exit();
 }
 
-function isAdminLoggedIn() {
-    return isset($_SESSION['admin_id']);
-}
-
-function isDoctorLoggedIn() {
-    return isset($_SESSION['doctor_id']);
-}
-
-function isPatientLoggedIn() {
-    return isset($_SESSION['patient_id']);
-}
-
-function requireAdminLogin() {
-    if (!isAdminLoggedIn()) {
-        header("Location: ../admin/login.php");
-        exit;
-    }
-}
-
-function requireDoctorLogin() {
-    if (!isDoctorLoggedIn()) {
-        header("Location: ../doctor/login.php");
-        exit;
-    }
-}
-
-function requirePatientLogin() {
-    if (!isPatientLoggedIn()) {
-        header("Location: ../patient/login.php");
-        exit;
-    }
-}
+// Prevent back button after logout
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+?>
