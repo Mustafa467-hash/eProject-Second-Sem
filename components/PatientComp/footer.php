@@ -1,4 +1,5 @@
-<footer class="text-white pt-5 pb-3" style="background-color: #2246d2;">
+
+<footer class="text-white pt-5 pb-3" style="background: linear-gradient(135deg,  #2246d2, #041a83);">
   <div class="container">
     <div class="row gy-4">
       <!-- Brand + Social -->
@@ -8,10 +9,10 @@
         </h4>
         <p>&copy; <?= date('Y') ?> Care Group | Powered by Care Group</p>
         <div class="d-flex gap-3 mt-3">
-          <a href="#" class="text-white fs-5"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="text-white fs-5"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="text-white fs-5"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="text-white fs-5"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-white fs-5 left-side"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white fs-5 left-side"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white fs-5 left-side"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-white fs-5 left-side"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
 
@@ -19,10 +20,10 @@
       <div class="col-md-3">
         <h5 class="fw-bold mb-3">Quick Links</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">Home</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Doctors</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Appointments</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Contact Us</a></li>
+          <li><a href="#" class="text-white text-decoration-none left-side">Home</a></li>
+          <li><a href="#" class="text-white text-decoration-none left-side">Doctors</a></li>
+          <li><a href="#" class="text-white text-decoration-none left-side">Appointments</a></li>
+          <li><a href="#" class="text-white text-decoration-none left-side">Contact Us</a></li>
         </ul>
       </div>
 
@@ -30,10 +31,10 @@
       <div class="col-md-3">
         <h5 class="fw-bold mb-3">Resources</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">Health Blog</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Updates</a></li>
-          <li><a href="#" class="text-white text-decoration-none">FAQs</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+          <li><a href="#" class="text-white text-decoration-none right-side">Health Blog</a></li>
+          <li><a href="#" class="text-white text-decoration-none right-side">Updates</a></li>
+          <li><a href="#" class="text-white text-decoration-none right-side">FAQs</a></li>
+          <li><a href="#" class="text-white text-decoration-none right-side">Help Center</a></li>
         </ul>
       </div>
 

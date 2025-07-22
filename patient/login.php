@@ -18,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['patient_id'] = $user['id'];
             $_SESSION['patient_name'] = $user['name'];
-            header("Location: dashboard.php");
-            echo "Login successful. Redirecting...";
+            header("Location: ../patient/dashboard.php");
             exit;
         } else {
             $error = "Incorrect password.";
@@ -29,36 +28,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Login - Patient Portal</title>
-    <link rel="stylesheet" href="../assets/css/glass.css">
+    <title>Patient Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+    <!-- Optional: add your glass.css if using -->
+    <link rel="stylesheet" href="../assets/css/glass.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            background: linear-gradient(to right, #ffebee, #ffcdd2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 2rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card h2 {
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #c62828;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: none;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #c62828;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-card button:hover {
+            background-color: #b71c1c;
+        }
+
+        .footer-link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-link a {
+            color: #c62828;
+            text-decoration: none;
+        }
+
+        .error-box {
+            background-color: #ffcdd2;
+            color: #b71c1c;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
 <body>
-    <form method="POST" class="glass-card">
+    <form method="POST" class="login-card">
         <h2>Patient Login</h2>
 
         <?php if ($error): ?>
             <div class="error-box"><?= $error ?></div>
-
         <?php endif; ?>
 
         <input type="text" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
 
         <button type="submit">Login</button>
+
         <div class="footer-link">
-            <span>Don’t have an account?</span>
+            <span>Don’t have an account? </span>
             <a href="register.php">Register here</a>
         </div>
-
     </form>
 </body>
-
 </html>

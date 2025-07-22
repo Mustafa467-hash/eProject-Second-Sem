@@ -20,7 +20,7 @@ require_once '../includes/db.php';
         }
 
         .hero {
-    
+
             padding: 120px 0;
             color: white;
             text-align: center;
@@ -43,7 +43,7 @@ require_once '../includes/db.php';
 
         .hero .btn-primary {
             background-color: #fff;
-            color: #8e0e00;
+            color: #041a83;
             border: none;
             font-size: 1.1rem;
             padding: 12px 30px;
@@ -53,11 +53,11 @@ require_once '../includes/db.php';
 
         .hero .btn-primary:hover {
             background-color: #ffd6e0;
-            color: #8e0e00;
+            color: #041a83;
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, #ff4d4d, #b30000);
+            background: linear-gradient(135deg, #2246d2, #041a83);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -80,22 +80,23 @@ require_once '../includes/db.php';
         .section-title {
             font-weight: 800;
             font-size: 2.5rem;
-            color: #8e0e00;
+            color: #041a83;
             margin-bottom: 20px;
             animation: slideInLeft 1s ease forwards;
         }
 
         .btn-outline-primary {
-            border-color: #8e0e00;
-            color: #8e0e00;
+            border-color: #041a83;
+            color: #041a83;
             font-weight: 500;
             padding: 10px 24px;
+
             font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .btn-outline-primary:hover {
-            background-color: #8e0e00;
+            background-color: #041a83;
             color: white;
         }
 
@@ -165,11 +166,12 @@ require_once '../includes/db.php';
         <!-- Hero Section -->
         <div class="hero">
             <div class="container bg-white p-5 rounded shadow text-center">
+                
                 <h1 class="display-4 fw-bold gradient-text">Save yourself. <br> Save each other.</h1>
                 <p class="text-muted">Your health is our priority. Book appointments, get updates and consult with
                     doctors—all in one place.</p>
-                <a href="#" class="btn btn-danger btn-lg my-2">Learn More</a>
-                <p class="mt-3 fw-semibold">+92 123 456 7890</p>
+                <a href="#" class="btn btn-danger btn-lg my-5">Learn More</a>
+                <p class="mt-3 fw-semibold gradient-text">+92 123 456 7890</p>
             </div>
 
             <!-- Stats -->
@@ -206,14 +208,18 @@ require_once '../includes/db.php';
             <div class="container my-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <div class="bg-light shadow rounded-4" style="height:320px;"></div>
+                        <div class="bg-light shadow rounded-4 overflow-hidden" style="height: 320px;">
+                            <img src="../assets/images/picture1.avif"
+                                class="img-fluid h-100 w-100 object-fit-cover" alt="Medical care image">
+                        </div>
+
                     </div>
                     <div class="col-md-6 mt-4 mt-md-0">
                         <h2 class="section-title">What is Our Platform?</h2>
                         <p class="text-muted">Our platform connects you with certified medical professionals. Book
                             appointments, get test results, and consult online. Our goal is to provide reliable and
                             accessible care for everyone.</p>
-                        <a href="#" class="btn btn-outline-primary">Check Services</a>
+                        <a href="#" class="btn btn-outline-primary my-3">Check Services</a>
                     </div>
                 </div>
             </div>
@@ -226,12 +232,12 @@ require_once '../includes/db.php';
                 </div>
             </div>
 
-           
+
         </div>
-         <!-- Footer -->
-            <?php
-                include '../components/patientcomp/footer.php';
-            ?>
+        <!-- Footer -->
+        <?php
+        include '../components/patientcomp/footer.php';
+        ?>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
