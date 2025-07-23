@@ -1,6 +1,7 @@
 <?php
 $title = "Dashboard";
 require_once '../includes/db.php';
+require_once '../includes/auth-patient.php'
 ?>
 
 <!DOCTYPE html>

@@ -9,6 +9,7 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Our Doctors</title>
@@ -24,7 +25,7 @@ $result = $conn->query($sql);
       font-weight: bold;
       margin-top: 30px;
       color: #ffffff;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .doctor-card {
@@ -33,12 +34,12 @@ $result = $conn->query($sql);
       background-color: #ffffff;
       color: #333;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .doctor-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
     }
 
     .card-title {
@@ -55,31 +56,36 @@ $result = $conn->query($sql);
     }
   </style>
 </head>
+
 <body>
 
-<?php include '../components/PatientComp/navbar.php'; ?>
+  <?php include '../components/PatientComp/navbar.php'; ?>
 
-<div class="container py-5">
-  <h1 class="text-center mb-5">Meet Our Doctors</h1>
-  <div class="row g-4">
-    <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="col-md-4">
-        <div class="card doctor-card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
-            <p><span class="badge text-white"><?= htmlspecialchars($row['specialization']) ?></span></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($row['email']) ?></p>
-            <p><strong>Phone:</strong> <?= htmlspecialchars($row['phone']) ?></p>
-            <p><strong>City:</strong> <?= htmlspecialchars($row['city_name']) ?></p>
-            <p><strong>Availability:</strong><br> <?= nl2br(htmlspecialchars($row['availability'])) ?></p>
-          </div>
+  <div class="container py-5">
+    <h1 class="text-center mb-5">Meet Our Doctors</h1>
+    <div class="row g-4">
+      <?php while ($row = $result->fetch_assoc()): ?>
+        <div class="col-md-4">
+          <a href="doctor-profile.php?id=<?= $row['id'] ?>" style="text-decoration: none;">
+            <div class="card doctor-card h-100">
+              <div class="card-body">
+                <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
+                <p><span class="badge text-white"><?= htmlspecialchars($row['specialization']) ?></span></p>
+                <p><strong>Email:</strong> <?= htmlspecialchars($row['email']) ?></p>
+                <p><strong>Phone:</strong> <?= htmlspecialchars($row['phone']) ?></p>
+                <p><strong>City:</strong> <?= htmlspecialchars($row['city_name']) ?></p>
+                <p><strong>Availability:</strong><br> <?= nl2br(htmlspecialchars($row['availability'])) ?></p>
+              </div>
+            </div>
+          </a>
+
         </div>
-      </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
+    </div>
   </div>
-</div>
 
-<?php include '../components/PatientComp/footer.php'; ?>
+  <?php include '../components/PatientComp/footer.php'; ?>
 
 </body>
+
 </html>

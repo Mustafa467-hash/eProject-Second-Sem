@@ -5,26 +5,28 @@ $error = '';
 $success = '';
 
 $name = $email = $phone = $password_raw = $gender = $age = $city_id = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = trim($_POST['name'] ?? '');
   $email = trim($_POST['email'] ?? '');
   $phone = trim($_POST['phone'] ?? '');
   $password_raw = trim($_POST['password'] ?? '');
-  $password = password_hash($password_raw, PASSWORD_DEFAULT);
   $gender = trim($_POST['gender'] ?? '');
   $age = trim($_POST['age'] ?? '');
   $city_id = trim($_POST['city_id'] ?? '');
 
-
-  if (empty($name) || empty($email) || empty($_POST['password']) || empty($phone) || !$age || empty($gender) || !$city_id) {
+  // Validation (runs before hashing password)
+  if (empty($name) || empty($email) || empty($password_raw) || empty($phone) || empty($age) || empty($gender) || empty($city_id)) {
     $error = 'Please fill in all fields.';
   } else {
+    $password = password_hash($password_raw, PASSWORD_DEFAULT);
+
     $stmt = $conn->prepare("INSERT INTO patients (name, email, password, phone, age, gender, city_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssisi", $name, $email, $password, $phone, $age, $gender, $city_id);
 
     if ($stmt->execute()) {
-      $success = 'Patient registered successfully!';
-      header("Location: dashboard.php");
+      header("Location: login.php"); // redirect to login page after register
+      exit; // stop script after redirect
     } else {
       $error = 'Registration failed. Try again.';
     }
@@ -33,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $cities = $conn->query("SELECT id, name FROM cities");
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,15 +123,17 @@ $cities = $conn->query("SELECT id, name FROM cities");
     <?php endif; ?>
 
     <form method="POST">
-      <input type="text" name="name" placeholder="Full Name">
-      <input type="email" name="email" placeholder="Email">
+      <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>">
+      <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
+      <input type="text" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>">
+
       <input type="password" name="password" placeholder="Password">
-      <input type="text" name="phone" placeholder="Phone Number">
+
       <select name="gender">
         <option value="">Select Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
-        <option value="Other">Other</option>
+
       </select>
       <select name="age">
         <option value="">Select Age</option>

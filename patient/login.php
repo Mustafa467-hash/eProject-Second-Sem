@@ -5,37 +5,50 @@ require_once '../includes/db.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    $stmt = $conn->prepare("SELECT * FROM patients WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if ($res->num_rows === 1) {
-        $user = $res->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['patient_id'] = $user['id'];
-            $_SESSION['patient_name'] = $user['name'];
-            header("Location: ../patient/dashboard.php");
-            exit;
-        } else {
-            $error = "Incorrect password.";
-        }
+    if ($email === '' || $password === '') {
+        $error = "Please enter both email and password.";
     } else {
-        $error = "No account found with that email.";
+        $stmt = $conn->prepare("SELECT * FROM patients WHERE email = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        if ($res && $res->num_rows === 1) {
+            $user = $res->fetch_assoc();
+
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['patient_id'] = $user['id'];
+                $_SESSION['patient_name'] = $user['name'];
+                $_SESSION['ispatient'] = true;
+
+                header("Location: dashboard.php");
+                exit();
+            } else {
+                $error = "Incorrect password.";
+            }
+        } else {
+            $error = "No account found with that email.";
+        }
+
+        $stmt->close();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Patient Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Optional: add your glass.css if using -->
-    <link rel="stylesheet" href="../assets/css/glass.css">
+    <link rel="stylesheet" href="../assets/css/glass.css"> <!-- Optional if you have glass.css -->
     <style>
         body {
             margin: 0;
@@ -48,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             padding: 2rem 2.5rem;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -115,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="error-box"><?= $error ?></div>
         <?php endif; ?>
 
-        <input type="text" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
 
         <button type="submit">Login</button>
