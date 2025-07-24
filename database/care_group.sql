@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2025 at 12:55 PM
+-- Generation Time: Jul 24, 2025 at 08:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -111,7 +111,13 @@ INSERT INTO `appointments` (`id`, `doctor_id`, `patient_id`, `appointment_date`,
 (60, 2, 60, '2025-07-27', '13:00:00', 'completed', '2025-07-14 19:00:00'),
 (61, 3, 61, '2025-07-27', '16:00:00', 'confirmed', '2025-07-13 19:00:00'),
 (62, 19, 62, '2025-07-23', '14:45:00', 'completed', '2025-07-16 19:00:00'),
-(65, 15, 65, '2025-07-25', '12:00:00', 'completed', '2025-07-16 19:00:00');
+(65, 15, 65, '2025-07-25', '12:00:00', 'completed', '2025-07-16 19:00:00'),
+(66, 1, 22, '2025-07-04', '00:00:00', 'pending', '2025-07-24 16:48:59'),
+(67, 1, 22, '2025-07-25', '13:00:00', 'pending', '2025-07-24 16:55:28'),
+(68, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:07:35'),
+(69, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:21:37'),
+(70, 25, 22, '2025-07-31', '14:25:00', 'pending', '2025-07-24 17:21:56'),
+(71, 21, 22, '2025-07-29', '10:22:00', 'pending', '2025-07-24 17:23:02');
 
 -- --------------------------------------------------------
 
@@ -139,6 +145,29 @@ INSERT INTO `cities` (`id`, `name`) VALUES
 (8, 'Multan'),
 (9, 'Hyderabad'),
 (10, 'Gujranwala');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_messages`
+--
+
+CREATE TABLE `contact_messages` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `subject` varchar(150) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_messages`
+--
+
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
+(1, 'Numaish Thakur', 'tamer13381@ahaks.com', 'Overdue Bills', 'Skibidi toilet', '2025-07-24 18:26:05'),
+(2, 'Numaish Thakur', 'tamer13381@ahaks.com', 'Overdue Bills', 'Skibidi toilet', '2025-07-24 18:28:02');
 
 -- --------------------------------------------------------
 
@@ -246,7 +275,8 @@ INSERT INTO `patients` (`id`, `name`, `email`, `phone`, `gender`, `age`, `city_i
 (18, 'Muhammad Chadhary', 'mChaduary@gmail.com', '036645691', 'Male', 48, 1, '$2y$10$z0jw2B59r5tXkBmdQrZ3jurnT.GJpcpNTRS53tqoPMFY/wqMN3SS.', '2025-07-20 19:33:39'),
 (19, 'Chat Gpt', 'Chat@gmail.com', '0101010101001', 'Other', 5, 4, '$2y$10$ShFsd125JZ7nx7/k9zlOeOu1vTNYGDo5Ot06CDRycqk.Glx55e4qS', '2025-07-20 19:35:09'),
 (20, 'Asif Ali Zardari', 'Asifalizardari@gmail.com', '03665621462', 'Male', 69, 1, '$2y$10$Re3blEZnSEDobn1HRecLj.WW7r9gF2l5rZsh/JmtYKg1xvB9IIjuC', '2025-07-21 14:07:52'),
-(21, 'Noman Raza', 'nomanraza123@gmail.com', '03310264958', 'Male', 35, 7, '$2y$10$kM2xtKeqvbkDjGtHU8n/WufoOIfzG4FMFGLT6RqrmODuNE46fGsDq', '2025-07-23 09:56:45');
+(21, 'Noman Raza', 'nomanraza123@gmail.com', '03310264958', 'Male', 35, 7, '$2y$10$kM2xtKeqvbkDjGtHU8n/WufoOIfzG4FMFGLT6RqrmODuNE46fGsDq', '2025-07-23 09:56:45'),
+(22, 'Raza Ibrahim', 'IbrahimRaza@gmail.com', '03562497831', 'Male', 24, 4, '$2y$10$2hxkllTVl4gwD2IKeIR6BuiLvGxcCi/U/oWZu84EGYmxIqnS2dW1q', '2025-07-24 16:27:00');
 
 --
 -- Indexes for dumped tables
@@ -272,6 +302,12 @@ ALTER TABLE `appointments`
 -- Indexes for table `cities`
 --
 ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -310,13 +346,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `doctors`
@@ -334,7 +376,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables

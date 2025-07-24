@@ -56,7 +56,7 @@
           <a class="nav-link text-dark" href="doctor.php"><i class="fas fa-user-md me-1"></i>Doctors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="book_appointment.php"><i
+          <a class="nav-link text-dark" href="book-appointment.php"><i
               class="fas fa-calendar-check me-1"></i>Appointments</a>
         </li>
         <li class="nav-item">

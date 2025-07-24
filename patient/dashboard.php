@@ -1,7 +1,13 @@
 <?php
 $title = "Dashboard";
 require_once '../includes/db.php';
-require_once '../includes/auth-patient.php'
+require_once '../includes/auth-patient.php';
+
+
+$doctor_count = $conn->query("SELECT COUNT(*) as total FROM doctors")->fetch_assoc()['total'];
+$city_count = $conn->query("SELECT COUNT(*) as total FROM cities")->fetch_assoc()['total'];
+$patient_count = $conn->query("SELECT COUNT(*) as total FROM patients")->fetch_assoc()['total'];
+$appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")->fetch_assoc()['total'];
 ?>
 
 <!DOCTYPE html>
@@ -172,7 +178,7 @@ require_once '../includes/auth-patient.php'
                 <p class="text-muted">Your health is our priority. Book appointments, get updates and consult with
                     doctors—all in one place.</p>
                 <a href="#" class="btn btn-danger btn-lg my-5">Learn More</a>
-                <p class="mt-3 fw-semibold gradient-text">+92 123 456 7890</p>
+                <p class="mt-3 fw-semibold gradient-text">+92 331 0003430</p>
             </div>
 
             <!-- Stats -->
@@ -180,25 +186,33 @@ require_once '../includes/auth-patient.php'
                 <div class="row g-4 text-center">
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3 class="text-danger">208</h3>
+                            <h3 class="text-danger">
+                               <?= $city_count ?>
+                            </h3>
                             <p class="text-muted">Registered Cities</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3 class="text-primary">2,567</h3>
+                            <h3 class="text-primary">
+                            <?= $patient_count ?>
+                            </h3>
                             <p class="text-muted">Total Patients</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3 class="text-success">512</h3>
+                            <h3 class="text-success">
+                                <?= $doctor_count ?>
+                            </h3>
                             <p class="text-muted">Active Doctors</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3 class="text-warning">32</h3>
+                            <h3 class="text-warning">
+                                <?= $appointment_count ?>
+                            </h3>
                             <p class="text-muted">Pending Requests</p>
                         </div>
                     </div>
