@@ -40,6 +40,7 @@ if (!$patient_id) {
   <meta charset="UTF-8">
   <title>Book Appointment</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       background: #F1F8FF;
@@ -57,7 +58,7 @@ if (!$patient_id) {
 
 <?php include '../components/PatientComp/navbar.php'; ?>
 
-<div class="container">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="form-card">

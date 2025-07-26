@@ -93,6 +93,8 @@ $result = $conn->query($sql);
   <!-- Page Content -->
   <div id="page-content" class="flex-grow-1 p-4">
 
+        <h2 class="text-danger fw-bold mb-4">Manage Appointments</h2>
+    
 <form method="GET" class="mb-4 d-flex flex-wrap gap-2 align-items-end">
   <div>
     <label>Doctor:</label>
