@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2025 at 08:29 PM
+-- Generation Time: Jul 26, 2025 at 09:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,7 +117,11 @@ INSERT INTO `appointments` (`id`, `doctor_id`, `patient_id`, `appointment_date`,
 (68, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:07:35'),
 (69, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:21:37'),
 (70, 25, 22, '2025-07-31', '14:25:00', 'pending', '2025-07-24 17:21:56'),
-(71, 21, 22, '2025-07-29', '10:22:00', 'pending', '2025-07-24 17:23:02');
+(71, 21, 22, '2025-07-29', '10:22:00', 'pending', '2025-07-24 17:23:02'),
+(72, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:24:53'),
+(73, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:17'),
+(74, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:32'),
+(75, 1, 22, '2025-07-27', '14:15:00', 'pending', '2025-07-26 19:14:42');
 
 -- --------------------------------------------------------
 
@@ -193,31 +197,32 @@ CREATE TABLE `doctors` (
 --
 
 INSERT INTO `doctors` (`id`, `name`, `email`, `phone`, `city_id`, `specialization`, `availability`, `password`, `created_at`, `image`) VALUES
-(1, 'Dr. Sana Khan', 'sana.k@caregroup.pk', '0311-1234567', 1, 'Cardiologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_1.jpg'),
-(2, 'Dr. Usman Ghani', 'usman.g@caregroup.pk', '0322-9876543', 1, 'Neurologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_2.jpg'),
-(3, 'Dr. Mahnoor Ali', 'mahnoor.a@caregroup.pk', '0345-4567890', 1, 'Dermatologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_3.jpg'),
-(4, 'Dr. Hamza Bashir', 'hamza.b@caregroup.pk', '0300-9988776', 2, 'General Physician', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_4.jpg'),
-(5, 'Dr. Laiba Tariq', 'laiba.t@caregroup.pk', '0312-3344556', 2, 'Pediatrician', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_5.jpg'),
-(6, 'Dr. Kamran Riaz', 'kamran.r@caregroup.pk', '0333-1122445', 2, 'Oncologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_6.jpg'),
-(7, 'Dr. Sumbul Javed', 'sumbul.j@caregroup.pk', '0346-8899776', 2, 'ENT Specialist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_7.jpg'),
-(8, 'Dr. Faisal Malik', 'faisal.m@caregroup.pk', '0301-2299884', 2, 'Urologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_8.jpg'),
-(9, 'Dr. Amna Asif', 'amna.a@caregroup.pk', '0320-6655443', 2, 'Psychiatrist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_9.jpg'),
-(10, 'Dr. Bilal Zahid', 'bilal.z@caregroup.pk', '0341-5544332', 3, 'Orthopedic Surgeon', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_10.jpg'),
-(11, 'Dr. Hira Fatima', 'hira.f@caregroup.pk', '0309-7711223', 3, 'Endocrinologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_11.jpg'),
-(12, 'Dr. Taimoor Iqbal', 'taimoor.i@caregroup.pk', '0317-7766554', 4, 'Pulmonologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_12.jpg'),
-(13, 'Dr. Rabia Saeed', 'rabia.s@caregroup.pk', '0335-3344112', 4, 'Gynecologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_25.jpg'),
-(14, 'Dr. Zain Abbas', 'zain.a@caregroup.pk', '0321-9988776', 4, 'Nephrologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_13.jpg'),
-(15, 'Dr. Nadia Imran', 'nadia.i@caregroup.pk', '0302-1122112', 4, 'Hematologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_14.jpg'),
-(16, 'Dr. Shahbaz Ali', 'shahbaz.a@caregroup.pk', '0344-5511223', 5, 'Ophthalmologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_15.jpg'),
-(17, 'Dr. Maria Qureshi', 'maria.q@caregroup.pk', '0315-8877665', 5, 'Immunologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_16.jpg'),
-(18, 'Dr. Ahsan Rafi', 'ahsan.r@caregroup.pk', '0308-3344556', 5, 'Radiologist', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:15:11', 'doctor_17.jpg'),
-(19, 'Dr. Areeba Khalid', 'areeba.khalid@example.com', '0300-9900887', 1, 'Pulmonologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_18.jpg'),
-(20, 'Dr. Faizan Malik', 'faizan.malik@example.com', '0310-2233445', 1, 'General Physician', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_19.jpg'),
-(21, 'Dr. Mahnoor Rizvi', 'mahnoor.rizvi@example.com', '0331-5556677', 1, 'Endocrinologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_20.jpg'),
-(22, 'Dr. Shayan Ahmed', 'shayan.ahmed@example.com', '0323-4567890', 1, 'Pediatrician', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_21.jpg'),
-(23, 'Dr. Nadia Baig', 'nadia.baig@example.com', '0308-3344556', 1, 'Cardiologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_22.jpg'),
-(24, 'Dr. Osama Zubair', 'osama.zubair@example.com', '0311-1122334', 1, 'Orthopedic Surgeon', 'Mon, Wed, Fri: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_23.jpg'),
-(25, 'Dr. Zeeshan Ahmed', 'zeeshan.ahmed@example.com', '0345-7654321', 3, 'Rheumatologist', 'Tue, Thu, Sat: 9AM–5PM', '', '2025-07-11 13:19:08', 'doctor_24.jpg');
+(1, 'Dr. Sana Khan', 'sana.k@caregroup.pk', '0311-1234567', 1, 'Cardiologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_1.jpg'),
+(2, 'Dr. Usman Ghani', 'usman.g@caregroup.pk', '0322-9876543', 1, 'Neurologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_2.jpg'),
+(3, 'Dr. Mahnoor Ali', 'mahnoor.a@caregroup.pk', '0345-4567890', 1, 'Dermatologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_3.jpg'),
+(4, 'Dr. Hamza Bashir', 'hamza.b@caregroup.pk', '0300-9988776', 2, 'General Physician', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_4.jpg'),
+(5, 'Dr. Laiba Tariq', 'laiba.t@caregroup.pk', '0312-3344556', 2, 'Pediatrician', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_5.jpg'),
+(6, 'Dr. Kamran Riaz', 'kamran.r@caregroup.pk', '0333-1122445', 2, 'Oncologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_6.jpg'),
+(7, 'Dr. Sumbul Javed', 'sumbul.j@caregroup.pk', '0346-8899776', 2, 'ENT Specialist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_7.jpg'),
+(8, 'Dr. Faisal Malik', 'faisal.m@caregroup.pk', '0301-2299884', 2, 'Urologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_8.jpg'),
+(9, 'Dr. Amna Asif', 'amna.a@caregroup.pk', '0320-6655443', 2, 'Psychiatrist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_9.jpg'),
+(10, 'Dr. Bilal Zahid', 'bilal.z@caregroup.pk', '0341-5544332', 3, 'Orthopedic Surgeon', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_10.jpg'),
+(11, 'Dr. Hira Fatima', 'hira.f@caregroup.pk', '0309-7711223', 3, 'Endocrinologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_11.jpg'),
+(12, 'Dr. Taimoor Iqbal', 'taimoor.i@caregroup.pk', '0317-7766554', 4, 'Pulmonologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_12.jpg'),
+(13, 'Dr. Rabia Saeed', 'rabia.s@caregroup.pk', '0335-3344112', 4, 'Gynecologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_25.jpg'),
+(14, 'Dr. Zain Abbas', 'zain.a@caregroup.pk', '0321-9988776', 4, 'Nephrologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_13.jpg'),
+(15, 'Dr. Nadia Imran', 'nadia.i@caregroup.pk', '0302-1122112', 4, 'Hematologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_14.jpg'),
+(16, 'Dr. Shahbaz Ali', 'shahbaz.a@caregroup.pk', '0344-5511223', 5, 'Ophthalmologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_15.jpg'),
+(17, 'Dr. Maria Qureshi', 'maria.q@caregroup.pk', '0315-8877665', 5, 'Immunologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_16.jpg'),
+(18, 'Dr. Ahsan Rafi', 'ahsan.r@caregroup.pk', '0308-3344556', 5, 'Radiologist', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:15:11', 'doctor_17.jpg'),
+(19, 'Dr. Areeba Khalid', 'areeba.khalid@example.com', '0300-9900887', 1, 'Pulmonologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_18.jpg'),
+(20, 'Dr. Faizan Malik', 'faizan.malik@example.com', '0310-2233445', 1, 'General Physician', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_19.jpg'),
+(21, 'Dr. Mahnoor Rizvi', 'mahnoor.rizvi@example.com', '0331-5556677', 1, 'Endocrinologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_20.jpg'),
+(22, 'Dr. Shayan Ahmed', 'shayan.ahmed@example.com', '0323-4567890', 1, 'Pediatrician', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_21.jpg'),
+(23, 'Dr. Nadia Baig', 'nadia.baig@example.com', '0308-3344556', 1, 'Cardiologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_22.jpg'),
+(24, 'Dr. Osama Zubair', 'osama.zubair@example.com', '0311-1122334', 1, 'Orthopedic Surgeon', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_23.jpg'),
+(25, 'Dr. Zeeshan Ahmed', 'zeeshan.ahmed@example.com', '0345-7654321', 3, 'Rheumatologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_24.jpg'),
+(63, 'Rebecca Chaudhary', 'RebChau@caregroup.pk', '03597612468', 2, 'Physiologist', 'TTS 5PM-2AM', '$2y$10$cJDDdxpkn76Tq5lokWehsuJumIZFBNffgB1rJn1pXA5U.ihpxlwBa', '2025-07-26 18:07:22', 'doctor_63.jpg');
 
 -- --------------------------------------------------------
 
@@ -346,7 +351,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -364,7 +369,7 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `news`
