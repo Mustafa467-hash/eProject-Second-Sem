@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($res->num_rows > 0) {
         $doctor = $res->fetch_assoc();
-        if (password_verify($password, $doctor['password'])) {
+        // Direct string comparison (no hashing)
+       if (password_verify($password, $doctor['password'])) {
             $_SESSION['doctor_id'] = $doctor['id'];
             $_SESSION['doctor_name'] = $doctor['name'];
             header("Location: dashboard.php");
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

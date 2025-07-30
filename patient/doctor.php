@@ -6,9 +6,9 @@ $sql = "SELECT d.*, c.name AS city_name
         LEFT JOIN cities c ON d.city_id = c.id";
 $result = $conn->query($sql);
 
-// Collect unique cities and specializations for filter options
 $cities = [];
 $specializations = [];
+$doctors = [];
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -18,8 +18,6 @@ if ($result->num_rows > 0) {
     }
     $cities = array_unique($cities);
     $specializations = array_unique($specializations);
-} else {
-    $doctors = [];
 }
 ?>
 
@@ -27,54 +25,96 @@ if ($result->num_rows > 0) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ Responsive meta -->
   <title>Our Doctors</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(to right, #2196F3, #64B5F6);
+      background: #f6f9fc;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
     }
 
     h1 {
-      font-weight: bold;
+      font-weight: 700;
       margin-top: 30px;
-      color: #ffffff;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      color: #222;
     }
 
+    /* Doctor Card */
     .doctor-card {
-      border: none;
-      border-radius: 20px;
-      background-color: #ffffff;
-      color: #333;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      height: 100%;
     }
 
     .doctor-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
 
-    .card-title {
+    .doctor-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .doctor-info h5 {
       font-weight: 600;
-      color: #1565C0;
-    }
-
-    .badge {
-      background-color: #1976D2;
-    }
-
-    .card-body p {
       margin-bottom: 5px;
+      color: #222;
     }
 
+    .doctor-info p {
+      margin: 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .doctor-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+      .doctor-img {
+        margin: 0 0 10px 0;
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .filter-bar .form-control,
+      .filter-bar .form-select {
+        font-size: 14px;
+        padding: 8px;
+      }
+      .doctor-info p {
+        font-size: 13px;
+      }
+    }
+
+    /* Filter */
     .filter-bar {
       margin-bottom: 30px;
     }
-
     .form-select, .form-control {
       border-radius: 12px;
     }
@@ -89,10 +129,10 @@ if ($result->num_rows > 0) {
 
   <!-- Filter Bar -->
   <div class="row filter-bar justify-content-center mb-4">
-    <div class="col-md-4 mb-2">
+    <div class="col-12 col-md-4 mb-2">
       <input type="text" id="searchInput" class="form-control" placeholder="Search by name or specialization">
     </div>
-    <div class="col-md-3 mb-2">
+    <div class="col-6 col-md-3 mb-2">
       <select id="cityFilter" class="form-select">
         <option value="">Filter by City</option>
         <?php foreach ($cities as $city): ?>
@@ -100,7 +140,7 @@ if ($result->num_rows > 0) {
         <?php endforeach; ?>
       </select>
     </div>
-    <div class="col-md-3 mb-2">
+    <div class="col-6 col-md-3 mb-2">
       <select id="specializationFilter" class="form-select">
         <option value="">Filter by Specialization</option>
         <?php foreach ($specializations as $spec): ?>
@@ -111,21 +151,19 @@ if ($result->num_rows > 0) {
   </div>
 
   <!-- Doctor Cards -->
-  <div class="row g-4" id="doctorCards">
+  <div class="row g-3" id="doctorCards">
     <?php foreach ($doctors as $row): ?>
-      <div class="col-md-4 doctor-card-container" 
+      <div class="col-12 col-sm-6 col-lg-4 doctor-card-container" 
            data-name="<?= strtolower($row['name']) ?>"
            data-specialization="<?= strtolower($row['specialization']) ?>"
            data-city="<?= strtolower($row['city_name']) ?>">
         <a href="doctor-profile.php?id=<?= $row['id'] ?>" style="text-decoration: none;">
-          <div class="card doctor-card h-100">
-            <div class="card-body">
-              <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
-              <p><span class="badge text-white"><?= htmlspecialchars($row['specialization']) ?></span></p>
-              <p><strong>Email:</strong> <?= htmlspecialchars($row['email']) ?></p>
-              <p><strong>Phone:</strong> <?= htmlspecialchars($row['phone']) ?></p>
-              <p><strong>City:</strong> <?= htmlspecialchars($row['city_name']) ?></p>
-              <p><strong>Availability:</strong><br><?= nl2br(htmlspecialchars($row['availability'])) ?></p>
+          <div class="doctor-card">
+            <img src="<?= $row['image'] ?? 'default-doctor.jpg' ?>" alt="Doctor" class="doctor-img">
+            <div class="doctor-info">
+              <h5><?= htmlspecialchars($row['name']) ?></h5>
+              <p><strong><?= htmlspecialchars($row['specialization']) ?></strong></p>
+              <p><?= htmlspecialchars($row['city_name']) ?></p>
             </div>
           </div>
         </a>
@@ -136,7 +174,6 @@ if ($result->num_rows > 0) {
 
 <?php include '../components/PatientComp/footer.php'; ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const searchInput = document.getElementById('searchInput');
   const cityFilter = document.getElementById('cityFilter');
@@ -157,11 +194,7 @@ if ($result->num_rows > 0) {
       const matchCity = !city || cityName === city;
       const matchSpec = !spec || specialization === spec;
 
-      if (matchSearch && matchCity && matchSpec) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (matchSearch && matchCity && matchSpec) ? 'block' : 'none';
     });
   }
 
@@ -169,5 +202,6 @@ if ($result->num_rows > 0) {
   cityFilter.addEventListener('change', filterCards);
   specializationFilter.addEventListener('change', filterCards);
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
