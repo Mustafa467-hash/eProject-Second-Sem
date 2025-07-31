@@ -26,6 +26,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             font-family: 'Poppins', sans-serif;
             background: #f8fafc;
             color: #334155;
+            scroll-behavior: smooth; /* Smooth scrolling */
             overflow-x: hidden;
         }
 
@@ -302,7 +303,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             <div class="col-12 col-md-6 mt-4 mt-md-0">
                 <h2>What is Our Platform?</h2>
                 <p>Our platform connects you with certified medical professionals. Book appointments, get test results, and consult online. Reliable and accessible care for everyone.</p>
-                <a href="#" class="btn btn-outline-primary mt-3">Check About Us</a>
+                <a href="#about" class="btn btn-outline-primary mt-3">Check About Us</a>
             </div>
         </div>
     </div>
@@ -340,7 +341,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
     </div>
 
     <!-- About Us Section -->
-    <div class="container my-5 text-center" data-aos="fade-up">
+    <div id="about" class="container my-5 text-center" data-aos="fade-up">
         <div class="about-section">
             <div class="row align-items-center">
                 <div class="">

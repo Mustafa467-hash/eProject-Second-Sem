@@ -147,6 +147,10 @@ $cities = $conn->query("SELECT id, name FROM cities");
         <?php endwhile; ?>
       </select>
       <button type="submit">Register</button>
+      <div class="text-center mt-3">
+            <span>Don’t have an account or new patient></span>
+            <a class="text-secondary text-decoration-none" href="register.php">Register here</a>
+        </div>
     </form>
   </div>
 </body>

@@ -27,6 +27,39 @@ if (!$patient_id) {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = trim($_POST['appointment_date']);
     $time = trim($_POST['appointment_time']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $date = trim($_POST['appointment_date']);
+    $time = trim($_POST['appointment_time']);
+    $symptoms = trim($_POST['symptoms']);
+    $medical_history = trim($_POST['medical_history']);
+    $appointment_type = trim($_POST['appointment_type']);
+    $notes = trim($_POST['notes']);
+
+    if (!$selectedDoctorId || !$date || !$time || !$symptoms || !$appointment_type) {
+        $error = 'Please fill out all required fields.';
+    } else {
+        $stmt = $conn->prepare("INSERT INTO appointments 
+            (doctor_id, patient_id, appointment_date, appointment_time, symptoms, medical_history, appointment_type, notes) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("iissssss", 
+            $selectedDoctorId, 
+            $patient_id, 
+            $date, 
+            $time, 
+            $symptoms, 
+            $medical_history, 
+            $appointment_type, 
+            $notes
+        );
+
+        if ($stmt->execute()) {
+            $success = 'Appointment booked successfully!';
+        } else {
+            $error = 'Failed to book appointment. Please try again.';
+        }
+    }
+}
+
 
     if (!$selectedDoctorId || !$date || !$time) {
         $error = 'Please fill out all fields.';
@@ -40,8 +73,8 @@ if (!$patient_id) {
             $error = 'Failed to book appointment. Please try again.';
         }
     }
-}
-?>
+  }
+  ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -155,19 +188,19 @@ if (!$patient_id) {
             <div class="row g-3 mb-3">
               <div class="col-md-6">
                 <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['name'] ?? '') ?>" readonly>
+                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['name'] ?? '') ?>" >
               </div>
               <div class="col-md-6">
                 <label class="form-label">Phone</label>
-                <input type="tel" class="form-control" value="<?= htmlspecialchars($patientInfo['phone'] ?? '') ?>" readonly>
+                <input type="tel" class="form-control" value="<?= htmlspecialchars($patientInfo['phone'] ?? '') ?>" >
               </div>
               <div class="col-md-6">
                 <label class="form-label">Age</label>
-                <input type="number" class="form-control" value="<?= htmlspecialchars($patientInfo['age'] ?? '') ?>" readonly>
+                <input type="number" class="form-control" value="<?= htmlspecialchars($patientInfo['age'] ?? '') ?>" >
               </div>
               <div class="col-md-6">
                 <label class="form-label">Gender</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['gender'] ?? '') ?>" readonly>
+                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['gender'] ?? '') ?>" >
               </div>
             </div>
 

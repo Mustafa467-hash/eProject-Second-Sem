@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2025 at 09:36 PM
+-- Generation Time: Jul 31, 2025 at 09:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,67 +61,75 @@ CREATE TABLE `appointments` (
   `appointment_date` date NOT NULL,
   `appointment_time` time NOT NULL,
   `status` enum('pending','confirmed','completed','cancelled') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `symptoms` text DEFAULT NULL,
+  `medical_history` text DEFAULT NULL,
+  `appointment_type` varchar(50) DEFAULT NULL,
+  `notes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `doctor_id`, `patient_id`, `appointment_date`, `appointment_time`, `status`, `created_at`) VALUES
-(1, 18, 1, '2025-07-27', '14:00:00', 'completed', '2025-07-14 19:00:00'),
-(3, 1, 3, '2025-07-21', '09:00:00', 'confirmed', '2025-07-12 19:00:00'),
-(4, 7, 4, '2025-07-23', '09:30:00', 'cancelled', '2025-07-14 19:00:00'),
-(6, 7, 6, '2025-07-25', '09:30:00', 'confirmed', '2025-07-12 19:00:00'),
-(7, 5, 7, '2025-07-26', '12:00:00', 'pending', '2025-07-12 19:00:00'),
-(10, 8, 10, '2025-07-21', '15:15:00', 'completed', '2025-07-16 19:00:00'),
-(11, 15, 11, '2025-07-27', '13:00:00', 'completed', '2025-07-13 19:00:00'),
-(12, 17, 12, '2025-07-19', '11:00:00', 'completed', '2025-07-16 19:00:00'),
-(13, 6, 13, '2025-07-19', '16:45:00', 'pending', '2025-07-15 19:00:00'),
-(16, 4, 16, '2025-07-20', '14:45:00', 'confirmed', '2025-07-13 19:00:00'),
-(17, 3, 17, '2025-07-21', '12:30:00', 'completed', '2025-07-14 19:00:00'),
-(18, 16, 18, '2025-07-21', '11:30:00', 'cancelled', '2025-07-12 19:00:00'),
-(19, 11, 19, '2025-07-23', '13:15:00', 'confirmed', '2025-07-12 19:00:00'),
-(20, 2, 20, '2025-07-20', '15:30:00', 'completed', '2025-07-15 19:00:00'),
-(21, 13, 21, '2025-07-27', '11:30:00', 'confirmed', '2025-07-15 19:00:00'),
-(22, 13, 22, '2025-07-24', '14:30:00', 'confirmed', '2025-07-12 19:00:00'),
-(24, 4, 24, '2025-07-25', '12:00:00', 'completed', '2025-07-13 19:00:00'),
-(25, 21, 25, '2025-07-24', '13:30:00', 'completed', '2025-07-13 19:00:00'),
-(26, 20, 26, '2025-07-20', '16:45:00', 'cancelled', '2025-07-14 19:00:00'),
-(27, 24, 27, '2025-07-19', '09:00:00', 'confirmed', '2025-07-14 19:00:00'),
-(28, 22, 28, '2025-07-22', '14:15:00', 'confirmed', '2025-07-16 19:00:00'),
-(30, 24, 30, '2025-07-23', '14:15:00', 'cancelled', '2025-07-14 19:00:00'),
-(32, 3, 32, '2025-07-23', '11:00:00', 'pending', '2025-07-12 19:00:00'),
-(35, 22, 35, '2025-07-19', '12:00:00', 'completed', '2025-07-13 19:00:00'),
-(36, 9, 36, '2025-07-28', '14:30:00', 'cancelled', '2025-07-16 19:00:00'),
-(37, 25, 37, '2025-07-20', '11:45:00', 'completed', '2025-07-12 19:00:00'),
-(38, 4, 38, '2025-07-22', '13:00:00', 'pending', '2025-07-13 19:00:00'),
-(39, 14, 39, '2025-07-23', '13:15:00', 'pending', '2025-07-13 19:00:00'),
-(41, 13, 41, '2025-07-20', '09:00:00', 'completed', '2025-07-14 19:00:00'),
-(42, 5, 42, '2025-07-19', '14:30:00', 'pending', '2025-07-15 19:00:00'),
-(44, 23, 44, '2025-07-20', '10:45:00', 'confirmed', '2025-07-14 19:00:00'),
-(48, 4, 48, '2025-07-19', '16:00:00', 'confirmed', '2025-07-15 19:00:00'),
-(49, 10, 49, '2025-07-22', '10:30:00', 'pending', '2025-07-15 19:00:00'),
-(52, 19, 52, '2025-07-23', '10:15:00', 'cancelled', '2025-07-14 19:00:00'),
-(53, 7, 53, '2025-07-21', '11:15:00', 'pending', '2025-07-13 19:00:00'),
-(55, 12, 55, '2025-07-25', '12:00:00', 'pending', '2025-07-14 19:00:00'),
-(56, 20, 56, '2025-07-22', '09:00:00', 'cancelled', '2025-07-12 19:00:00'),
-(57, 6, 57, '2025-07-23', '09:45:00', 'completed', '2025-07-16 19:00:00'),
-(59, 21, 59, '2025-07-22', '14:45:00', 'cancelled', '2025-07-12 19:00:00'),
-(60, 2, 60, '2025-07-27', '13:00:00', 'completed', '2025-07-14 19:00:00'),
-(61, 3, 61, '2025-07-27', '16:00:00', 'confirmed', '2025-07-13 19:00:00'),
-(62, 19, 62, '2025-07-23', '14:45:00', 'completed', '2025-07-16 19:00:00'),
-(65, 15, 65, '2025-07-25', '12:00:00', 'completed', '2025-07-16 19:00:00'),
-(66, 1, 22, '2025-07-04', '00:00:00', 'pending', '2025-07-24 16:48:59'),
-(67, 1, 22, '2025-07-25', '13:00:00', 'pending', '2025-07-24 16:55:28'),
-(68, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:07:35'),
-(69, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:21:37'),
-(70, 25, 22, '2025-07-31', '14:25:00', 'pending', '2025-07-24 17:21:56'),
-(71, 21, 22, '2025-07-29', '10:22:00', 'pending', '2025-07-24 17:23:02'),
-(72, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:24:53'),
-(73, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:17'),
-(74, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:32'),
-(75, 1, 22, '2025-07-27', '14:15:00', 'pending', '2025-07-26 19:14:42');
+INSERT INTO `appointments` (`id`, `doctor_id`, `patient_id`, `appointment_date`, `appointment_time`, `status`, `created_at`, `symptoms`, `medical_history`, `appointment_type`, `notes`) VALUES
+(1, 18, 1, '2025-07-27', '14:00:00', 'completed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(3, 1, 3, '2025-07-21', '09:00:00', 'confirmed', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(4, 7, 4, '2025-07-23', '09:30:00', 'cancelled', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(6, 7, 6, '2025-07-25', '09:30:00', 'confirmed', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(7, 5, 7, '2025-07-26', '12:00:00', 'pending', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(10, 8, 10, '2025-07-21', '15:15:00', 'completed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(11, 15, 11, '2025-07-27', '13:00:00', 'completed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(12, 17, 12, '2025-07-19', '11:00:00', 'completed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(13, 6, 13, '2025-07-19', '16:45:00', 'pending', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(16, 4, 16, '2025-07-20', '14:45:00', 'confirmed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(17, 3, 17, '2025-07-21', '12:30:00', 'completed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(18, 16, 18, '2025-07-21', '11:30:00', 'cancelled', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(19, 11, 19, '2025-07-23', '13:15:00', 'confirmed', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(20, 2, 20, '2025-07-20', '15:30:00', 'completed', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(21, 13, 21, '2025-07-27', '11:30:00', 'confirmed', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(22, 13, 22, '2025-07-24', '14:30:00', 'confirmed', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(24, 4, 24, '2025-07-25', '12:00:00', 'completed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(25, 21, 25, '2025-07-24', '13:30:00', 'completed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(26, 20, 26, '2025-07-20', '16:45:00', 'cancelled', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(27, 24, 27, '2025-07-19', '09:00:00', 'confirmed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(28, 22, 28, '2025-07-22', '14:15:00', 'confirmed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(30, 24, 30, '2025-07-23', '14:15:00', 'cancelled', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(32, 3, 32, '2025-07-23', '11:00:00', 'pending', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(35, 22, 35, '2025-07-19', '12:00:00', 'completed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(36, 9, 36, '2025-07-28', '14:30:00', 'cancelled', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(37, 25, 37, '2025-07-20', '11:45:00', 'completed', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(38, 4, 38, '2025-07-22', '13:00:00', 'pending', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(39, 14, 39, '2025-07-23', '13:15:00', 'pending', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(41, 13, 41, '2025-07-20', '09:00:00', 'completed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(42, 5, 42, '2025-07-19', '14:30:00', 'pending', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(44, 23, 44, '2025-07-20', '10:45:00', 'confirmed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(48, 4, 48, '2025-07-19', '16:00:00', 'confirmed', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(49, 10, 49, '2025-07-22', '10:30:00', 'pending', '2025-07-15 19:00:00', NULL, NULL, NULL, NULL),
+(52, 19, 52, '2025-07-23', '10:15:00', 'cancelled', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(53, 7, 53, '2025-07-21', '11:15:00', 'pending', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(55, 12, 55, '2025-07-25', '12:00:00', 'pending', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(56, 20, 56, '2025-07-22', '09:00:00', 'cancelled', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(57, 6, 57, '2025-07-23', '09:45:00', 'completed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(59, 21, 59, '2025-07-22', '14:45:00', 'cancelled', '2025-07-12 19:00:00', NULL, NULL, NULL, NULL),
+(60, 2, 60, '2025-07-27', '13:00:00', 'completed', '2025-07-14 19:00:00', NULL, NULL, NULL, NULL),
+(61, 3, 61, '2025-07-27', '16:00:00', 'confirmed', '2025-07-13 19:00:00', NULL, NULL, NULL, NULL),
+(62, 19, 62, '2025-07-23', '14:45:00', 'completed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(65, 15, 65, '2025-07-25', '12:00:00', 'completed', '2025-07-16 19:00:00', NULL, NULL, NULL, NULL),
+(66, 1, 22, '2025-07-04', '00:00:00', 'pending', '2025-07-24 16:48:59', NULL, NULL, NULL, NULL),
+(67, 1, 22, '2025-07-25', '13:00:00', 'pending', '2025-07-24 16:55:28', NULL, NULL, NULL, NULL),
+(68, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:07:35', NULL, NULL, NULL, NULL),
+(69, 19, 22, '2025-06-11', '12:15:00', 'pending', '2025-07-24 17:21:37', NULL, NULL, NULL, NULL),
+(70, 25, 22, '2025-07-31', '14:25:00', 'pending', '2025-07-24 17:21:56', NULL, NULL, NULL, NULL),
+(71, 21, 22, '2025-07-29', '10:22:00', 'pending', '2025-07-24 17:23:02', NULL, NULL, NULL, NULL),
+(72, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:24:53', NULL, NULL, NULL, NULL),
+(73, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:17', NULL, NULL, NULL, NULL),
+(74, 1, 22, '2025-07-31', '13:24:00', 'pending', '2025-07-25 15:25:32', NULL, NULL, NULL, NULL),
+(75, 1, 22, '2025-07-27', '14:15:00', 'pending', '2025-07-26 19:14:42', NULL, NULL, NULL, NULL),
+(76, 68, 22, '2025-08-26', '03:09:00', 'pending', '2025-07-31 19:04:58', NULL, NULL, NULL, NULL),
+(77, 68, 22, '2025-08-01', '14:00:00', 'pending', '2025-07-31 19:07:02', NULL, NULL, NULL, NULL),
+(78, 65, 22, '2025-08-01', '03:46:00', 'pending', '2025-07-31 19:43:48', 'Persistent cough, chest pain, shortness of breath.', 'Asthma since childhood, allergic to dust and pollen.', 'consultation', 'Patient reports symptoms worsen during the night. No previous hospital admissions in the last year.'),
+(79, 65, 22, '2025-08-01', '03:46:00', 'pending', '2025-07-31 19:43:48', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -171,7 +179,8 @@ CREATE TABLE `contact_messages` (
 
 INSERT INTO `contact_messages` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
 (1, 'Numaish Thakur', 'tamer13381@ahaks.com', 'Overdue Bills', 'Skibidi toilet', '2025-07-24 18:26:05'),
-(2, 'Numaish Thakur', 'tamer13381@ahaks.com', 'Overdue Bills', 'Skibidi toilet', '2025-07-24 18:28:02');
+(2, 'Numaish Thakur', 'tamer13381@ahaks.com', 'Overdue Bills', 'Skibidi toilet', '2025-07-24 18:28:02'),
+(3, 'Ibrahim Raza', 'IbrahimRaza@gmail.com', 'Suggestions', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam id odit ratione optio, sit harum neque vitae similique, impedit magni ex repellat reiciendis iste omnis magnam quasi veritatis tempore possimus.', '2025-07-31 18:24:18');
 
 -- --------------------------------------------------------
 
@@ -222,7 +231,10 @@ INSERT INTO `doctors` (`id`, `name`, `email`, `phone`, `city_id`, `specializatio
 (23, 'Dr. Nadia Baig', 'nadia.baig@example.com', '0308-3344556', 1, 'Cardiologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_22.jpg'),
 (24, 'Dr. Osama Zubair', 'osama.zubair@example.com', '0311-1122334', 1, 'Orthopedic Surgeon', 'Mon, Wed, Fri: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_23.jpg'),
 (25, 'Dr. Zeeshan Ahmed', 'zeeshan.ahmed@example.com', '0345-7654321', 3, 'Rheumatologist', 'Tue, Thu, Sat: 9AM–5PM', '$2b$12$q8GT/5pRb5tdlB/rTNvrAeIZ65ZdGoZLx5frr8cqDzxjNiU9fRlsW', '2025-07-11 13:19:08', 'doctor_24.jpg'),
-(63, 'Rebecca Chaudhary', 'RebChau@caregroup.pk', '03597612468', 2, 'Physiologist', 'TTS 5PM-2AM', '$2y$10$cJDDdxpkn76Tq5lokWehsuJumIZFBNffgB1rJn1pXA5U.ihpxlwBa', '2025-07-26 18:07:22', 'doctor_63.jpg');
+(63, 'Rebecca Chaudhary', 'RebChau@caregroup.pk', '03597612468', 2, 'Physiologist', 'TTS 5PM-2AM', '$2y$10$cJDDdxpkn76Tq5lokWehsuJumIZFBNffgB1rJn1pXA5U.ihpxlwBa', '2025-07-26 18:07:22', 'doctor_63.jpg'),
+(65, 'Dr Ali Zafar', 'alizafar@caregorup.com', '03358945731', 4, 'Surgeon', 'Emergency', '$2y$10$p.Jur7oLUPDwARfVhnG32.u0gR..SSn2Ay9XANaB.nBSJ9e6js6xu', '2025-07-30 13:27:32', 'doctor_65.jpg'),
+(66, 'Dr Momina', 'skiski@gmail.com', '03165896472', 3, 'Surgeon', 'MWF 9–5', '$2y$10$Z388bDgClvlzVUImk0AmAudhyoHSJzBBz5eg3qdjCFhOALzTrzFoG', '2025-07-30 13:35:19', 'doctor_66.jpg'),
+(68, 'Atif Aslam', 'Aslam@caregroup.com', '03569821764', 7, 'laryngologist', 'MWF 5PM-2AM', '$2y$10$/irY70YJYANidZghb.HMVeHAMBcKd75nM6ZTZHGGYBk2X7jiDPxk.', '2025-07-31 18:59:17', 'doctor_68.jpg');
 
 -- --------------------------------------------------------
 
@@ -351,7 +363,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -363,13 +375,13 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `news`

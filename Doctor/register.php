@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!isset($_FILES['image']) || $_FILES['image']['error'] !== 0) {
         $error = 'Please upload an image.';
     } else {
-        // ✅ Validate JPG file
+   
         $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
         if ($ext !== 'jpg' && $ext !== 'jpeg') {
             $error = 'Only JPG images are allowed.';
@@ -29,19 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $password = password_hash($password_raw, PASSWORD_DEFAULT);
 
-            // ✅ Insert doctor first (image blank for now)
+           
             $stmt = $conn->prepare("INSERT INTO doctors (name, email, phone, city_id, specialization, availability, password, image) VALUES (?, ?, ?, ?, ?, ?, ?, '')");
             $stmt->bind_param("sssisss", $name, $email, $phone, $city_id, $specialization, $availability, $password);
 
             if ($stmt->execute()) {
-                $doctor_id = $stmt->insert_id; // ✅ Get auto ID
+                $doctor_id = $stmt->insert_id; 
 
-                // ✅ Save image with doctor ID
+              
                 $imageName = "doctor_" . $doctor_id . ".jpg";
                 $uploadPath = "../assets/images/" . $imageName;
                 move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath);
 
-                // ✅ Update DB with image name
+         
                 $update = $conn->prepare("UPDATE doctors SET image = ? WHERE id = ?");
                 $update->bind_param("si", $imageName, $doctor_id);
                 $update->execute();
@@ -59,21 +59,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Doctor Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Intel+One+Mono:ital,wght@0,300..700;1,300..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
 
         body {
-                font-family: 'intel one mono', sans-serif !important;
-           background: linear-gradient(to right, #c5e3f9ff, #3897e6ff);
+            background: #f7f8fa;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,65 +85,108 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
 
         .form-container {
             background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 650px;
         }
 
-        .form-container h2 {
-            margin-bottom: 20px;
-            color: #1565c0;
+        h2 {
             text-align: center;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #222;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1 1 48%;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-container input,
         .form-container select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
+            padding: 10px 12px;
             border-radius: 8px;
-            transition: border-color 0.3s;
+            border: 1px solid #ddd;
+            background: #fdfdfd;
+            margin-bottom: 15px;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
         .form-container input:focus,
         .form-container select:focus {
-            border-color: #1565c0;
+            border-color: #444;
             outline: none;
+            background: #fff;
         }
 
         .form-container button {
             width: 100%;
-            background: #1565c0;
+            background: #222;
             color: white;
             padding: 12px;
             border: none;
             border-radius: 8px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
         .form-container button:hover {
-            background: #0d47a1;
+            background: #000;
+            transform: translateY(-1px);
         }
 
         .msg {
             text-align: center;
-            margin-bottom: 15px;
-            color: red;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #d9534f;
         }
 
         .msg.success {
-            color: green;
+            color: #28a745;
+        }
+
+        .text-center a {
+            color: #222;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .text-center a:hover {
+            color: #000;
+        }
+
+        label {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        @media(max-width: 768px) {
+            .form-row .form-group {
+                flex: 1 1 100%;
+            }
+            .form-container {
+                width: 95%;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <div class="form-container ">
-        <h2>Doctor Registration</h2>
+    <div class="form-container">
+        <h2><i class="fa-solid fa-user-doctor"></i> Doctor Registration</h2>
 
         <?php if ($error): ?>
             <div class="msg"><?= $error ?></div>
@@ -150,38 +195,60 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>">
-            <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
-            <input type="text" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
+                </div>
 
-            <input type="text" name="specialization" placeholder="Specialization"
-                value="<?= htmlspecialchars($specialization) ?>">
+                <div class="form-group">
+                    <input type="text" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="specialization" placeholder="Specialization"
+                        value="<?= htmlspecialchars($specialization) ?>">
+                </div>
 
-            <select name="availability">
-                <option value="">Select Availability</option>
-                <option value="MWF 9AM-5PM">MWF 9AM-5PM</option>
-                <option value="MWF 5PM-2AM">MWF 5PM-2AM</option>
-                <option value="TTS 9AM-5PM">TTS 9AM-5PM</option>
-                <option value="TTS 5PM-2AM">TTS 5PM-2AM</option>
-                <option value="Emergency">Emergency</option>
-            </select>
+                <div class="form-group">
+                    <select name="availability">
+                        <option value="">Select Availability</option>
+                        <option value="MWF 9AM-5PM">MWF 9AM-5PM</option>
+                        <option value="MWF 5PM-2AM">MWF 5PM-2AM</option>
+                        <option value="TTS 9AM-5PM">TTS 9AM-5PM</option>
+                        <option value="TTS 5PM-2AM">TTS 5PM-2AM</option>
+                        <option value="Emergency">Emergency</option>
+                    </select>
+                </div>
 
-            <!-- ✅ Cities Dropdown -->
-            <select name="city_id">
-                <option value="">Select City</option>
-                <?php while ($row = $cities->fetch_assoc()): ?>
-                    <option value="<?= $row['id'] ?>" <?= $city_id == $row['id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($row['name']) ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
+                <div class="form-group">
+                    <select name="city_id">
+                        <option value="">Select City</option>
+                        <?php while ($row = $cities->fetch_assoc()): ?>
+                            <option value="<?= $row['id'] ?>" <?= $city_id == $row['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($row['name']) ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-            <input type="password" name="password" placeholder="Password">
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
 
-            <label>Upload Profile Image (Max 2MB)</label>
-            <input type="file" name="image" accept="image/*">
+                <div class="form-group">
+                    <label>Upload Profile Image (Max 2MB)</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+            </div>
 
-            <button type="submit">Register</button>
+            <button type="submit"><i class="fa-solid fa-user-plus"></i> Register</button>
+
+            <div class="text-center mt-3">
+                <span>Have an account? </span>
+                <a href="login.php">Login here</a>
+            </div>
         </form>
     </div>
 </body>

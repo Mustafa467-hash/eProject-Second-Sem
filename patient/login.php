@@ -138,9 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Login</button>
 
-        <div class="footer-link">
-            <span>Don’t have an account? </span>
-            <a href="register.php">Register here</a>
+        <div class="text-center mt-3">
+            <span>Don’t have an account or new patient?</span>
+            <a class="text-secondary text-decoration-none" href="register.php">Register here</a>
         </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
