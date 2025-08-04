@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $age = trim($_POST['age'] ?? '');
   $city_id = trim($_POST['city_id'] ?? '');
 
-  // Validation (runs before hashing password)
   if (empty($name) || empty($email) || empty($password_raw) || empty($phone) || empty($age) || empty($gender) || empty($city_id)) {
     $error = 'Please fill in all fields.';
   } else {
@@ -25,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssssisi", $name, $email, $password, $phone, $age, $gender, $city_id);
 
     if ($stmt->execute()) {
-      header("Location: login.php"); // redirect to login page after register
-      exit; // stop script after redirect
+      header("Location: login.php");
+      exit; 
     } else {
       $error = 'Registration failed. Try again.';
     }
@@ -93,7 +92,7 @@ $cities = $conn->query("SELECT id, name FROM cities");
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
     }
 
     .form-container button:hover {

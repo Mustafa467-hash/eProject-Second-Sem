@@ -1,7 +1,6 @@
 <?php
 $title = "Dashboard";
 require_once '../includes/db.php';
-require_once '../includes/auth-patient.php';
 
 $doctor_count = $conn->query("SELECT COUNT(*) as total FROM doctors")->fetch_assoc()['total'];
 $city_count = $conn->query("SELECT COUNT(*) as total FROM cities")->fetch_assoc()['total'];
@@ -14,7 +13,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ Responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
@@ -261,7 +260,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
     <div class="hero">
         <h1 data-aos="zoom-in">Save Yourself.<br>Save Each Other.</h1>
         <p data-aos="fade-up">Your health is our priority. Book appointments, get updates and consult with doctors—all in one place.</p>
-        <p class="mt-3 fw-semibold" data-aos="fade-up" data-aos-delay="400">📞 +92 331 0003430</p>
+        <p class="mt-3 fw-semibold" data-aos="fade-up" data-aos-delay="400">📞 +92 331 0003431</p>
     </div>
 
     <!-- Stats -->
@@ -308,7 +307,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
         </div>
     </div>
 
-    <!-- Testimonials -->
+    
     <div class="container my-5">
         <h2 class="text-center mb-4" data-aos="fade-up">What Our Patients Say</h2>
         <div class="row g-4">
@@ -333,14 +332,14 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
         </div>
     </div>
 
-    <!-- Video -->
+ 
     <div class="container video-container" data-aos="zoom-in">
         <div class="ratio ratio-16x9">
             <iframe src="https://www.youtube.com/embed/EBgyBMimBr4" title="Informative Video" allowfullscreen></iframe>
         </div>
     </div>
 
-    <!-- About Us Section -->
+    
     <div id="about" class="container my-5 text-center" data-aos="fade-up">
         <div class="about-section">
             <div class="row align-items-center">

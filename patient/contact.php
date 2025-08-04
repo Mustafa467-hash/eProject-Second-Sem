@@ -67,7 +67,7 @@ require_once '../includes/db.php';
       margin-bottom: 2rem;
     }
 
-    /* ✅ Responsive tweaks */
+    
     @media (max-width: 768px) {
       .contact-form {
         padding: 1.5rem;
@@ -102,7 +102,7 @@ require_once '../includes/db.php';
   <div class="container my-5">
     <h2 class="text-center contact-heading">Get in Touch</h2>
     <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8 col-sm-12"> <!-- ✅ Scales perfectly on all devices -->
+      <div class="col-lg-6 col-md-8 col-sm-12"> 
         <form action="contact_submit.php" method="POST" class="contact-form">
           <div class="mb-3">
             <label for="name" class="form-label">Your Name</label>
