@@ -27,24 +27,26 @@ $current_availability = explode(',', $current);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --dark-color: #34495e;
-            --light-color: #ecf0f1;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --sidebar-width: 250px;
+            --primary-color: #2246d2;
+            --secondary-color: #6366f1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --border-radius: 16px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
             line-height: 1.6;
             padding: 0;
             margin: 0;
@@ -52,7 +54,7 @@ $current_availability = explode(',', $current);
             min-height: 100vh;
         }
         
-        /* Sidebar styles */
+
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--dark-color);
@@ -64,7 +66,7 @@ $current_availability = explode(',', $current);
             transition: var(--transition);
         }
         
-        /* Main content area with sidebar offset */
+
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
@@ -74,27 +76,38 @@ $current_availability = explode(',', $current);
         }
         
         .availability-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 30px;
+            padding: 2rem;
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            border: 1px solid #e2e8f0;
         }
         
         h2 {
             color: var(--dark-color);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            font-size: 1.875rem;
+            font-weight: 700;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        h2 i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
         }
         
         .slot-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
         
         .slot-item {
@@ -111,59 +124,99 @@ $current_availability = explode(',', $current);
         .slot-label {
             display: flex;
             align-items: center;
-            padding: 15px;
-            background: #f8f9fa;
+            padding: 1rem 1.25rem;
+            background: #fff;
             border-radius: var(--border-radius);
-            border: 2px solid #ddd;
+            border: 1px solid #e2e8f0;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
+            font-size: 0.875rem;
+            color: #64748b;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         
         .slot-label:hover {
-            background: #e9ecef;
-            border-color: var(--primary-color);
+            background: #f8fafc;
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow);
         }
         
         .slot-checkbox:checked + .slot-label {
-            background-color: rgba(52, 152, 219, 0.1);
+            background-color: #f1f5f9;
             border-color: var(--primary-color);
             color: var(--primary-color);
+            font-weight: 600;
         }
         
         .slot-checkbox:checked + .slot-label::before {
             content: "\f00c";
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
-            margin-right: 10px;
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+        
+        .slot-label i {
+            margin-right: 0.75rem;
+            color: #94a3b8;
+            transition: var(--transition);
+        }
+        
+        .slot-checkbox:checked + .slot-label i {
             color: var(--primary-color);
         }
         
         .submit-btn {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
             border-radius: var(--border-radius);
             cursor: pointer;
             width: 100%;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
-            margin-top: 20px;
+            margin-top: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(34, 70, 210, 0.2);
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: var(--transition);
         }
         
         .submit-btn:hover {
-            background-color: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: var(--box-shadow);
+            box-shadow: 0 6px 12px -2px rgba(34, 70, 210, 0.25);
         }
         
-        /* Mobile menu toggle button */
+        .submit-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .submit-btn i,
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -180,7 +233,7 @@ $current_availability = explode(',', $current);
             cursor: pointer;
         }
         
-        /* Responsive adjustments */
+
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -238,11 +291,22 @@ $current_availability = explode(',', $current);
     <!-- Main content area -->
     <div class="main-content">
         <div class="availability-container">
-            <h2><i class="fas fa-calendar-check me-2"></i>Update Availability</h2>
+            <h2>
+                <i class="fas fa-calendar-check"></i>
+                <span>Update Availability</span>
+            </h2>
             
             <form method="post">
                 <div class="slot-list">
-                    <?php foreach ($slots as $slot): ?>
+                    <?php 
+                    $slotIcons = [
+                        'MWF 9–5' => 'fas fa-sun',
+                        'MWF 5–2am' => 'fas fa-moon',
+                        'TTS 9–5' => 'fas fa-sun',
+                        'TTS 5–2am' => 'fas fa-moon',
+                        'Emergency' => 'fas fa-ambulance'
+                    ];
+                    foreach ($slots as $slot): ?>
                         <div class="slot-item">
                             <input type="checkbox" 
                                    id="slot-<?= htmlspecialchars(strtolower(str_replace(' ', '-', $slot))) ?>" 
@@ -252,6 +316,7 @@ $current_availability = explode(',', $current);
                                    <?= in_array($slot, $current_availability) ? 'checked' : '' ?>>
                             <label for="slot-<?= htmlspecialchars(strtolower(str_replace(' ', '-', $slot))) ?>" 
                                    class="slot-label">
+                                <i class="<?= $slotIcons[$slot] ?>"></i>
                                 <?= htmlspecialchars($slot) ?>
                             </label>
                         </div>
@@ -259,7 +324,8 @@ $current_availability = explode(',', $current);
                 </div>
                 
                 <button type="submit" class="submit-btn">
-                    <i class="fas fa-save"></i> Save Availability
+                    <i class="fas fa-clock"></i>
+                    <span>Update Schedule</span>
                 </button>
             </form>
         </div>
@@ -267,12 +333,12 @@ $current_availability = explode(',', $current);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mobile menu toggle functionality
+
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
             
-            // Change icon between bars and times
+
             const icon = this.querySelector('i');
             if (sidebar.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
@@ -283,7 +349,7 @@ $current_availability = explode(',', $current);
             }
         });
         
-        // Close sidebar when clicking outside on mobile
+
         document.addEventListener('click', function(event) {
             const sidebar = document.querySelector('.sidebar');
             const mobileBtn = document.getElementById('mobileMenuBtn');
@@ -299,7 +365,7 @@ $current_availability = explode(',', $current);
             }
         });
         
-        // Reset layout when window is resized
+
         window.addEventListener('resize', function() {
             if (window.innerWidth > 992) {
                 const sidebar = document.querySelector('.sidebar');

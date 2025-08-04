@@ -1,43 +1,84 @@
 <style>
+  :root {
+    --primary-color: #16a34a;
+    --primary-hover: #15803d;
+    --navbar-bg: rgba(255, 255, 255, 0.95);
+    --text-color: #333;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+
   .navbar {
-    background: linear-gradient(to right, #f8f9fa, #ffffff);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: var(--navbar-bg);
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    padding: 0.75rem 0;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    letter-spacing: -0.5px;
   }
 
   .navbar .nav-link {
     font-weight: 500;
-    transition: all 0.4s ease-in;
-    margin-left: 10px;
+    color: var(--text-color) !important;
+    transition: var(--transition);
+    margin-left: 1.5rem;
+    position: relative;
+    padding: 0.5rem 0;
+  }
+
+  .navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+  }
+
+  .navbar .nav-link:hover::after,
+  .navbar .nav-link.active::after {
+    width: 100%;
   }
 
   .navbar .nav-link:hover {
-    background: linear-gradient(135deg, #2246d2, #041a83);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary-color) !important;
   }
 
-  .btn-danger {
-    background: linear-gradient(135deg, #2246d2, #041a83);
+  .emergency-btn {
+    background: var(--primary-color);
+    color: white;
     border: none;
-    box-shadow: 0 0 10px #041A83;
-    transition: transform 0.2s ease;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
   }
 
-  .btn-danger:hover {
-    transform: scale(1.05);
+  .emergency-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
   }
 
-  /* Scroll effect (optional) */
   .navbar.scrolled {
-    background-color: white !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: white;
+    box-shadow: var(--shadow-md);
   }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm" id="mainNavbar">
   <div class="container">
-    <a href="dashboard.php" class="navbar-brand fw-bold text-primary d-flex align-items-center">
+    <a href="dashboard.php" class="navbar-brand fw-bold d-flex justify-content-center name align-items-center">
       <i class="fas fa-stethoscope me-2"></i>
       <span class="sidebar-text">Care Group</span>
     </a>

@@ -33,26 +33,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --text-color: #333;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --sidebar-width: 250px;
+            --primary-color: #2246d2;
+            --secondary-color: #6366f1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #334155;
+            --border-radius: 16px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f7fa;
+            background-color: var(--light-color);
             color: var(--text-color);
             line-height: 1.6;
             display: flex;
@@ -82,157 +84,245 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            border: 1px solid #e2e8f0;
         }
         
         h2 {
             color: var(--dark-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1.875rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
         }
         
         .filter-btns {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
         }
         
         .filter-btns a {
-            padding: 10px 20px;
+            padding: 0.75rem 1.25rem;
             text-decoration: none;
-            border-radius: var(--border-radius);
-            font-weight: 500;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
             transition: var(--transition);
-            border: 2px solid transparent;
-            display: inline-block;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             text-align: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         
         .filter-btns a[href*="status=all"] {
-            background-color: var(--dark-color);
+            background-color: #1e293b;
             color: white;
         }
         
         .filter-btns a[href*="status=pending"] {
-            background-color: var(--warning-color);
-            color: white;
+            background-color: #fff;
+            color: #92400e;
+            border-color: #fef3c7;
         }
         
         .filter-btns a[href*="status=confirmed"] {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: #fff;
+            color: var(--primary-color);
+            border-color: #e0e7ff;
         }
         
         .filter-btns a[href*="status=completed"] {
-            background-color: var(--success-color);
-            color: white;
+            background-color: #fff;
+            color: #166534;
+            border-color: #dcfce7;
         }
         
         .filter-btns a[href*="status=cancelled"] {
-            background-color: var(--danger-color);
-            color: white;
+            background-color: #fff;
+            color: #991b1b;
+            border-color: #fee2e2;
         }
         
         .filter-btns a:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: var(--box-shadow);
-            opacity: 0.9;
+            background-color: #fff;
+        }
+
+        .filter-btns a[href*="status=all"]:hover {
+            background-color: #334155;
         }
         
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1.5rem;
             box-shadow: var(--box-shadow);
-            overflow: hidden;
             border-radius: var(--border-radius);
+            overflow: hidden;
+            background: white;
+            border: 1px solid #e2e8f0;
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 1rem 1.5rem;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.875rem;
         }
         
         th {
-            background-color: var(--primary-color);
-            color: white;
+            background: #f8fafc;
+            color: #1e293b;
             font-weight: 600;
-            position: sticky;
-            top: 0;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
         
         tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: #f8fafc;
         }
         
         tr:hover {
-            background-color: #e9f7fe;
+            background-color: #f1f5f9;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
         }
         
         select {
-            padding: 8px 12px;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
             background-color: white;
             cursor: pointer;
             transition: var(--transition);
             width: 100%;
             max-width: 150px;
+            font-size: 0.875rem;
+            color: #475569;
+            font-weight: 500;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
         }
         
         select:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(34, 70, 210, 0.1);
         }
         
         button {
-            padding: 8px 16px;
-            background-color: var(--primary-color);
+            padding: 0.625rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: var(--transition);
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.875rem;
             white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(34, 70, 210, 0.1);
         }
         
         button:hover {
-            background-color: var(--secondary-color);
             transform: translateY(-1px);
-            box-shadow: var(--box-shadow);
+            box-shadow: 0 4px 6px rgba(34, 70, 210, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
         
         .status-pending {
-            color: var(--warning-color);
-            font-weight: 500;
+            color: #92400e;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: #fef3c7;
+            border-radius: 9999px;
+            font-size: 0.75rem;
         }
         
         .status-confirmed {
             color: var(--primary-color);
-            font-weight: 500;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: #e0e7ff;
+            border-radius: 9999px;
+            font-size: 0.75rem;
         }
         
         .status-completed {
-            color: var(--success-color);
-            font-weight: 500;
+            color: #166534;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: #dcfce7;
+            border-radius: 9999px;
+            font-size: 0.75rem;
         }
         
         .status-cancelled {
-            color: var(--danger-color);
-            font-weight: 500;
+            color: #991b1b;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: #fee2e2;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+
+        .status-pending i,
+        .status-confirmed i,
+        .status-completed i,
+        .status-cancelled i {
+            font-size: 0.625rem;
         }
         
         .action-form {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
             align-items: center;
             flex-wrap: wrap;
         }

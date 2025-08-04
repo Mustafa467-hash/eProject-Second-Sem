@@ -10,43 +10,83 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #2246d2;
+            --primary-hover: #1a37a7;
+            --secondary-color: #6366f1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --border-radius: 16px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--light-color);
             color: #334155;
-            scroll-behavior: smooth; /* Smooth scrolling */
-            overflow-x: hidden;
+            scroll-behavior: smooth;
+            overflow-x: clip;
+            max-width: 100vw;
         }
 
-        /* Floating glow blobs */
+
+
         .glow {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: float 10s infinite alternate ease-in-out;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: float 12s infinite alternate ease-in-out;
             z-index: 0;
+            mix-blend-mode: soft-light;
         }
-        .glow.one { background: #ff5f6d; width: 300px; height: 300px; top: 10%; left: -10%; }
-        .glow.two { background: #2246d2; width: 250px; height: 250px; bottom: 5%; right: -10%; animation-delay: 3s; }
+
+        .glow.one {
+            background: linear-gradient(135deg, #2246d2, #6366f1);
+            width: 400px;
+            height: 400px;
+            top: 5%;
+            left: -5%;
+            transform-origin: center;
+        }
+
+        .glow.two {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+            width: 350px;
+            height: 350px;
+            bottom: 5%;
+            right: -5%;
+            animation-delay: 4s;
+            transform-origin: bottom right;
+        }
 
         @keyframes float {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-40px); }
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(-40px);
+            }
         }
 
-        /* Hero */
+
         .hero {
             position: relative;
             min-height: 100vh;
@@ -55,35 +95,59 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             justify-content: center;
             flex-direction: column;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             z-index: 1;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+            backdrop-filter: blur(10px);
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 800;
-            color: #1e293b;
-            animation: fadeDown 1.2s ease forwards;
-            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            animation: fadeDown 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero p {
-            max-width: 650px;
-            font-size: 1.2rem;
-            margin-top: 20px;
+            max-width: 700px;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
             opacity: 0;
-            color: #64748b;
-            animation: fadeUp 1.2s ease forwards 0.6s;
+            color: #475569;
+            animation: fadeUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+            line-height: 1.8;
+            font-weight: 500;
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .btn-fancy {
@@ -105,107 +169,208 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             background: #1a37a7;
         }
 
-        /* Stats Section */
+
         .stats-section {
             position: relative;
             z-index: 2;
-            margin-top: -80px;
+            margin-top: -100px;
             padding: 60px 0;
         }
 
         .stats-card {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 40px 20px;
+            border-radius: var(--border-radius);
+            padding: 2rem;
             text-align: center;
             border: 1px solid #e2e8f0;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
             height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .stats-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 20px -8px rgba(34, 70, 210, 0.15);
+        }
+
+        .stats-card:hover::before {
+            opacity: 1;
         }
 
         .stats-card h3 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 700;
-            color: #2246d2;
-            margin-bottom: 8px;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .stats-card p {
-            color: #64748b;
-            font-weight: 500;
-            margin-top: 8px;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #475569;
+            margin: 0;
         }
 
-        /* About Section */
+
         .about-section {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 60px;
-            margin: 60px auto;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 4rem;
+            margin: 80px auto;
+            box-shadow: var(--box-shadow);
             border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        @media (max-width: 768px) {
+            .about-section {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-section .col-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
         }
 
         .about-section h2 {
-            color: #1e293b;
+            color: var(--dark-color);
             font-weight: 700;
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .about-section p {
-            color: black;
+            color: #475569;
             line-height: 1.8;
+            font-size: 1.125rem;
         }
 
-        /* Testimonials */
+        .about-section img {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .about-section img:hover {
+            transform: scale(1.02);
+        }
+
+
         .testimonial {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
-            transition: 0.3s;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            transition: var(--transition);
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #e2e8f0;
+            font-family: serif;
+            opacity: 0.5;
         }
 
         .testimonial:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px -8px rgba(34, 70, 210, 0.15);
         }
 
         .testimonial p {
-            color: #334155;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            color: #1e293b;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .testimonial h6 {
-            color: #64748b;
+            color: var(--primary-color);
             font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Video */
+        .testimonial h6::before {
+            content: '';
+            display: inline-block;
+            width: 2rem;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+
         .video-container {
-            border-radius: 20px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: var(--box-shadow);
             margin-bottom: 80px;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
         }
 
-        /* ✅ Responsive tweaks */
+        .video-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(34, 70, 210, 0.15);
+        }
+
+
         @media (max-width: 992px) {
             .hero h1 {
                 font-size: 2.8rem;
             }
+
             .hero p {
                 font-size: 1rem;
             }
+
             .about-section {
                 padding: 30px;
             }
@@ -215,15 +380,19 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             .hero {
                 padding: 40px 15px;
             }
+
             .hero h1 {
                 font-size: 2.2rem;
             }
+
             .stats-card h3 {
                 font-size: 2rem;
             }
+
             .stats-section {
                 margin-top: -40px;
             }
+
             .about-section {
                 padding: 20px;
                 margin: 30px auto;
@@ -234,22 +403,27 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             .hero h1 {
                 font-size: 1.8rem;
             }
+
             .hero p {
                 font-size: 0.95rem;
             }
+
             .btn-fancy {
                 width: 100%;
                 padding: 10px 0;
             }
+
             .stats-card {
                 padding: 20px 10px;
             }
+
             .about-section img {
                 margin-bottom: 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <?php include '../components/patientcomp/navbar.php'; ?>
 
@@ -259,12 +433,14 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
     <!-- Hero Section -->
     <div class="hero">
         <h1 data-aos="zoom-in">Save Yourself.<br>Save Each Other.</h1>
-        <p data-aos="fade-up">Your health is our priority. Book appointments, get updates and consult with doctors—all in one place.</p>
+        <p data-aos="fade-up">Your health is our priority. Book appointments, get updates and consult with doctors—all
+            in one place.</p>
         <p class="mt-3 fw-semibold" data-aos="fade-up" data-aos-delay="400">📞 +92 331 0003431</p>
     </div>
 
     <!-- Stats -->
-    <div class="container stats-section">
+ <div class="container-fluid px-3 stats-section">
+
         <div class="row g-4 text-center">
             <div class="col-6 col-md-3" data-aos="fade-up">
                 <div class="stats-card">
@@ -301,13 +477,14 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
             </div>
             <div class="col-12 col-md-6 mt-4 mt-md-0">
                 <h2>What is Our Platform?</h2>
-                <p>Our platform connects you with certified medical professionals. Book appointments, get test results, and consult online. Reliable and accessible care for everyone.</p>
+                <p>Our platform connects you with certified medical professionals. Book appointments, get test results,
+                    and consult online. Reliable and accessible care for everyone.</p>
                 <a href="#about" class="btn btn-outline-primary mt-3">Check About Us</a>
             </div>
         </div>
     </div>
 
-    
+
     <div class="container my-5">
         <h2 class="text-center mb-4" data-aos="fade-up">What Our Patients Say</h2>
         <div class="row g-4">
@@ -332,14 +509,14 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
         </div>
     </div>
 
- 
+
     <div class="container video-container" data-aos="zoom-in">
         <div class="ratio ratio-16x9">
             <iframe src="https://www.youtube.com/embed/EBgyBMimBr4" title="Informative Video" allowfullscreen></iframe>
         </div>
     </div>
 
-    
+
     <div id="about" class="container my-5 text-center" data-aos="fade-up">
         <div class="about-section">
             <div class="row align-items-center">
@@ -348,23 +525,28 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <p class="text-dark mb-4">
-                                Founded in 2023, Care Group has emerged as Pakistan's leading digital healthcare platform. 
-                                We are a dedicated team of healthcare professionals, technologists, and innovators united by 
+                                Founded in 2023, Care Group has emerged as Pakistan's leading digital healthcare
+                                platform.
+                                We are a dedicated team of healthcare professionals, technologists, and innovators
+                                united by
                                 a single mission: making quality healthcare accessible to everyone.
                             </p>
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <h4 class="text-primary mb-3">Our Mission</h4>
                                     <p class="text-dark">
-                                        To revolutionize healthcare access in Pakistan by creating a seamless bridge between 
-                                        patients and healthcare providers, ensuring everyone has access to quality medical care 
+                                        To revolutionize healthcare access in Pakistan by creating a seamless bridge
+                                        between
+                                        patients and healthcare providers, ensuring everyone has access to quality
+                                        medical care
                                         when they need it most.
                                     </p>
                                 </div>
                                 <div class="col-md-6">
                                     <h4 class="text-primary mb-3">Our Vision</h4>
                                     <p class="text-dark">
-                                        To become the most trusted healthcare platform in Pakistan, where every citizen can 
+                                        To become the most trusted healthcare platform in Pakistan, where every citizen
+                                        can
                                         access world-class medical care with just a few clicks.
                                     </p>
                                 </div>
@@ -376,7 +558,8 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
                                         <i class="fas fa-user-md text-primary me-3 mt-1"></i>
                                         <div>
                                             <h5 class="mb-2">Verified Professionals</h5>
-                                            <p class="text-dark mb-0">All our doctors are verified and hold valid medical licenses</p>
+                                            <p class="text-dark mb-0">All our doctors are verified and hold valid
+                                                medical licenses</p>
                                         </div>
                                     </div>
                                 </div>
@@ -385,7 +568,8 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
                                         <i class="fas fa-clock text-primary me-3 mt-1"></i>
                                         <div>
                                             <h5 class="mb-2">24/7 Support</h5>
-                                            <p class="text-dark mb-0">Round-the-clock assistance for all your healthcare needs</p>
+                                            <p class="text-dark mb-0">Round-the-clock assistance for all your healthcare
+                                                needs</p>
                                         </div>
                                     </div>
                                 </div>
@@ -394,19 +578,22 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
                                         <i class="fas fa-shield-alt text-primary me-3 mt-1"></i>
                                         <div>
                                             <h5 class="mb-2">Secure Platform</h5>
-                                            <p class="text-dark mb-0">Your health data is protected with enterprise-grade security</p>
+                                            <p class="text-dark mb-0">Your health data is protected with
+                                                enterprise-grade security</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <p class="text-dark">
-                                Our platform offers seamless appointment booking, real-time updates, and online consultations, 
-                                making healthcare more accessible than ever. We've partnered with leading hospitals and clinics 
+                                Our platform offers seamless appointment booking, real-time updates, and online
+                                consultations,
+                                making healthcare more accessible than ever. We've partnered with leading hospitals and
+                                clinics
                                 across Pakistan to ensure you receive the best possible care.
                             </p>
                         </div>
                     </div>
-               </div>
+                </div>
             </div>
         </div>
     </div>
@@ -417,4 +604,5 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>AOS.init({ duration: 1200, once: true });</script>
 </body>
+
 </html>

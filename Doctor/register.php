@@ -68,109 +68,214 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2246d2;
+            --secondary-color: #6366f1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --border-radius: 16px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
 
         * {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background: #f7f8fa;
+            background: var(--light-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 1.5rem;
         }
 
         .form-container {
             background: #fff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            width: 650px;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 700px;
+            border: 1px solid #e2e8f0;
         }
 
         h2 {
             text-align: center;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: #222;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.875rem;
+        }
+
+        h2 i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
         }
 
         .form-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-row .form-group {
-            flex: 1 1 48%;
             display: flex;
             flex-direction: column;
+            gap: 0.5rem;
         }
 
         .form-container input,
         .form-container select {
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background: #fdfdfd;
-            margin-bottom: 15px;
-            font-size: 14px;
-            transition: all 0.2s ease;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            font-size: 0.875rem;
+            color: #1e293b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-container input::placeholder {
+            color: #94a3b8;
         }
 
         .form-container input:focus,
         .form-container select:focus {
-            border-color: #444;
+            border-color: #93c5fd;
             outline: none;
-            background: #fff;
+            box-shadow: 0 0 0 3px rgba(34, 70, 210, 0.1);
+        }
+
+        .form-container select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.25rem;
+            padding-right: 2.5rem;
         }
 
         .form-container button {
             width: 100%;
-            background: #222;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 12px;
+            padding: 1rem 1.5rem;
             border: none;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(34, 70, 210, 0.2);
+        }
+
+        .form-container button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .form-container button:hover {
-            background: #000;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(34, 70, 210, 0.25);
+        }
+
+        .form-container button:hover::before {
+            opacity: 1;
+        }
+
+        .form-container button i,
+        .form-container button span {
+            position: relative;
+            z-index: 1;
         }
 
         .msg {
             text-align: center;
-            margin-bottom: 12px;
-            font-weight: 500;
-            color: #d9534f;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: #fee2e2;
+            color: #991b1b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .msg.success {
-            color: #28a745;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .msg i {
+            font-size: 1rem;
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
         }
 
         .text-center a {
-            color: #222;
-            font-weight: 500;
+            color: var(--primary-color);
+            font-weight: 600;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            margin-left: 0.25rem;
         }
 
         .text-center a:hover {
-            color: #000;
+            color: var(--secondary-color);
+            text-decoration: underline;
         }
 
         label {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 5px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            padding: 0.75rem;
+            background: #f8fafc;
+            font-size: 0.875rem;
         }
 
         @media(max-width: 768px) {
@@ -189,31 +294,46 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
         <h2><i class="fa-solid fa-user-doctor"></i> Doctor Registration</h2>
 
         <?php if ($error): ?>
-            <div class="msg"><?= $error ?></div>
+            <div class="msg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span><?= $error ?></span>
+            </div>
         <?php elseif ($success): ?>
-            <div class="msg success"><?= $success ?></div>
+            <div class="msg success">
+                <i class="fas fa-check-circle"></i>
+                <span><?= $success ?></span>
+            </div>
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>">
+                    <label for="name"><i class="fas fa-user"></i>Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" 
+                           value="<?= htmlspecialchars($name) ?>">
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="specialization" placeholder="Specialization"
-                        value="<?= htmlspecialchars($specialization) ?>">
+                    <label for="email"><i class="fas fa-envelope"></i>Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" 
+                           value="<?= htmlspecialchars($email) ?>">
                 </div>
 
                 <div class="form-group">
-                    <select name="availability">
-                        <option value="">Select Availability</option>
+                    <label for="phone"><i class="fas fa-phone"></i>Phone Number</label>
+                    <input type="text" id="phone" name="phone" placeholder="Enter your phone number" 
+                           value="<?= htmlspecialchars($phone) ?>">
+                </div>
+                <div class="form-group">
+                    <label for="specialization"><i class="fas fa-stethoscope"></i>Specialization</label>
+                    <input type="text" id="specialization" name="specialization" 
+                           placeholder="Enter your specialization"
+                           value="<?= htmlspecialchars($specialization) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="availability"><i class="fas fa-clock"></i>Availability</label>
+                    <select id="availability" name="availability">
+                        <option value="">Select your availability</option>
                         <option value="MWF 9AM-5PM">MWF 9AM-5PM</option>
                         <option value="MWF 5PM-2AM">MWF 5PM-2AM</option>
                         <option value="TTS 9AM-5PM">TTS 9AM-5PM</option>
@@ -223,8 +343,9 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
                 </div>
 
                 <div class="form-group">
-                    <select name="city_id">
-                        <option value="">Select City</option>
+                    <label for="city"><i class="fas fa-map-marker-alt"></i>City</label>
+                    <select id="city" name="city_id">
+                        <option value="">Select your city</option>
                         <?php while ($row = $cities->fetch_assoc()): ?>
                             <option value="<?= $row['id'] ?>" <?= $city_id == $row['id'] ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($row['name']) ?>
@@ -234,12 +355,13 @@ $cities = $conn->query("SELECT id, name FROM cities ORDER BY id ASC LIMIT 10");
                 </div>
 
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password">
+                    <label for="password"><i class="fas fa-lock"></i>Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
                 </div>
 
                 <div class="form-group">
-                    <label>Upload Profile Image (Max 2MB)</label>
-                    <input type="file" name="image" accept="image/*">
+                    <label for="image"><i class="fas fa-image"></i>Profile Image (Max 2MB)</label>
+                    <input type="file" id="image" name="image" accept="image/*">
                 </div>
             </div>
 

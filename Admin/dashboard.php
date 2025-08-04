@@ -20,9 +20,18 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --card-border-radius: 16px;
+      --transition-speed: 0.3s;
+    }
+
     html, body {
       height: 100%;
       margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f8fafc;
     }
 
     body {
@@ -34,76 +43,136 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
       flex: 1;
       display: flex;
       flex-direction: row;
+      background: #f8fafc;
     }
 
     .main {
       flex-grow: 1;
-      padding: 20px;
+      padding: 2rem;
+      margin-left: 280px;
     }
 
-    .sidebar {
-      width: 250px;
-      flex-shrink: 0;
-      background-color: #fff;
+    .dashboard-header {
+      margin-bottom: 2rem;
     }
 
-    .main {
-      margin-left: 250px;
+    .dashboard-header h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-text {
+      color: #64748b;
+      font-size: 1.1rem;
     }
 
     .cards-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .card {
-      padding: 20px;
-      color: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: var(--card-border-radius);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      transition: all var(--transition-speed) ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .card i {
-      font-size: 30px;
-      margin-bottom: 10px;
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, var(--start-color), var(--end-color));
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--start-color), var(--end-color));
+    }
+
+    .card-icon i {
+      font-size: 1.5rem;
+      color: white;
     }
 
     .card h3 {
-      font-size: 22px;
-      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 0.5rem;
     }
 
     .card span {
-      font-size: 28px;
-      font-weight: bold;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: block;
     }
 
     .doc-card {
-      background: linear-gradient(to right, #4facfe, #00f2fe);
+      --start-color: #2246d2;
+      --end-color: #6366f1;
     }
 
     .city-card {
-      background: linear-gradient(to right, #43e97b, #38f9d7);
+      --start-color: #06b6d4;
+      --end-color: #0ea5e9;
     }
 
     .patient-card {
-      background: linear-gradient(to right, #fa709a, #fee140);
+      --start-color: #f59e0b;
+      --end-color: #fbbf24;
     }
 
     .appointment-card {
-      background: linear-gradient(to right, #667eea, #764ba2);
+      --start-color: #ec4899;
+      --end-color: #f472b6;
     }
 
-    footer {
+    .footer {
+      margin-left: 280px;
+      width: calc(100% - 280px);
       text-align: center;
-      padding: 10px;
-      color: #777;
-      font-size: 14px;
-      background-color: #f1f1f1;
+      padding: 1.5rem;
+      color: #64748b;
+      font-size: 0.875rem;
+      background-color: #fff;
+      border-top: 1px solid #e2e8f0;
+      position: relative;
+      z-index: 1;
+      background: #ffffff;
+      padding: 1rem;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.875rem;
+      border-top: 1px solid #e2e8f0;
     }
 
     .toggle-btn {
@@ -155,27 +224,47 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
   <?php include '../components/adminComp/sidebar.php'; ?>
 
   <div class="main">
-    <h1 class="mb-4">Dashboard</h1>
+    <div class="dashboard-header">
+      <h1>Dashboard Overview</h1>
+      <p class="welcome-text">Welcome back! Here's what's happening with your medical practice.</p>
+    </div>
+    
     <div class="cards-container">
       <div class="card doc-card">
-        <i class="fas fa-user-md"></i>
-        <h3>Total Doctors</h3>
-        <span><?= $doctor_count ?></span>
+        <div class="card-content">
+          <div class="card-icon">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <h3>Total Doctors</h3>
+          <span><?= $doctor_count ?></span>
+        </div>
       </div>
       <div class="card city-card">
-        <i class="fas fa-city"></i>
-        <h3>Total Cities</h3>
-        <span><?= $city_count ?></span>
+        <div class="card-content">
+          <div class="card-icon">
+            <i class="fas fa-city"></i>
+          </div>
+          <h3>Total Cities</h3>
+          <span><?= $city_count ?></span>
+        </div>
       </div>
       <div class="card patient-card">
-        <i class="fas fa-procedures"></i>
-        <h3>Total Patients</h3>
-        <span><?= $patient_count ?></span>
+        <div class="card-content">
+          <div class="card-icon">
+            <i class="fas fa-procedures"></i>
+          </div>
+          <h3>Total Patients</h3>
+          <span><?= $patient_count ?></span>
+        </div>
       </div>
       <div class="card appointment-card">
-        <i class="fas fa-calendar-check"></i>
-        <h3>Total Appointments</h3>
-        <span><?= $appointment_count ?></span>
+        <div class="card-content">
+          <div class="card-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <h3>Total Appointments</h3>
+          <span><?= $appointment_count ?></span>
+        </div>
       </div>
     </div>
 
@@ -183,7 +272,7 @@ $appointment_count = $conn->query("SELECT COUNT(*) as total FROM appointments")-
   </div>
 </div>
 
-<footer class="bg-dark text-white text-center py-3 mt-5 mb-0">
+<footer class="footer text-center py-3">
   <div class="container">
     <p class="mb-0">&copy; <?= date('Y') ?> Care Group. All rights reserved.</p>
   </div>

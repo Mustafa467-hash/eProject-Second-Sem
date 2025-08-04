@@ -31,22 +31,24 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-            --success-color: #2ecc71;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --sidebar-width: 250px;
+            --primary-color: #2246d2;
+            --secondary-color: #6366f1;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --success-color: #10b981;
+            --border-radius: 16px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light-color);
+            color: #334155;
             line-height: 1.6;
             padding: 0;
             margin: 0;
@@ -78,34 +80,50 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
         .profile-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 30px;
+            padding: 2.5rem;
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            border: 1px solid #e2e8f0;
         }
         
         h2 {
             color: var(--dark-color);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
             text-align: center;
+            font-size: 1.875rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        h2 i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
         }
         
         .profile-img-container {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 2.5rem;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .profile-img {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid white;
+            border: 4px solid white;
             box-shadow: var(--box-shadow);
             transition: var(--transition);
+            background: #f8fafc;
         }
         
         .profile-img:hover {
@@ -114,29 +132,46 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
         
         .upload-icon {
             position: absolute;
-            bottom: 20px;
-            right: calc(50% - 85px);
-            background: var(--primary-color);
+            bottom: 0;
+            right: 32%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             box-shadow: var(--box-shadow);
+            border: 3px solid white;
+            transition: var(--transition);
+        }
+
+        .upload-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px -4px rgba(34, 70, 210, 0.2);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label i {
+            color: var(--primary-color);
+            font-size: 1rem;
         }
         
         input[type="text"],
@@ -144,18 +179,20 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
         input[type="tel"],
         textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 16px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
             transition: var(--transition);
+            color: #1e293b;
+            background-color: #fff;
         }
         
         input:focus,
         textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(34, 70, 210, 0.1);
         }
         
         .file-input {
@@ -163,39 +200,79 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
         }
         
         .file-label {
-            display: block;
-            padding: 12px;
-            background: #f8f9fa;
-            border: 2px dashed #ddd;
+            display: flex;
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
             border-radius: var(--border-radius);
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
         }
         
         .file-label:hover {
-            background: #e9ecef;
-            border-color: var(--primary-color);
+            background: #f1f5f9;
+            border-color: #93c5fd;
+            color: var(--primary-color);
+        }
+
+        .file-label i {
+            font-size: 1.25rem;
+            color: var(--primary-color);
         }
         
         button[type="submit"] {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
             border-radius: var(--border-radius);
             cursor: pointer;
             width: 100%;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
-            margin-top: 10px;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(34, 70, 210, 0.2);
+        }
+        
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: var(--transition);
         }
         
         button[type="submit"]:hover {
-            background-color: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: var(--box-shadow);
+            box-shadow: 0 6px 12px -2px rgba(34, 70, 210, 0.25);
+        }
+
+        button[type="submit"]:hover::before {
+            opacity: 1;
+        }
+
+        button[type="submit"] i,
+        button[type="submit"] span {
+            position: relative;
+            z-index: 1;
         }
         
         /* Mobile menu button */
@@ -292,10 +369,13 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
     
     <div class="main-content">
         <div class="profile-container">
-            <h2><i class="fas fa-user-md me-2"></i>My Profile</h2>
+            <h2>
+                <i class="fas fa-user-md"></i>
+                <span>My Profile</span>
+            </h2>
             
             <div class="profile-img-container">
-                <img src="assets/images/doctor_<?= $doctor_id ?>.jpg" class="profile-img" onerror="this.src='default.jpg'">
+                <img src="assets/images/doctor_<?= $doctor_id ?>.jpg" class="profile-img" onerror="this.src='default.jpg'" alt="Doctor Profile">
                 <label for="image-upload" class="upload-icon" title="Change photo">
                     <i class="fas fa-camera"></i>
                 </label>
@@ -303,30 +383,48 @@ $doctor = $conn->query("SELECT * FROM doctors WHERE id=$doctor_id")->fetch_assoc
             
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="name"><i class="fas fa-signature me-2"></i>Full Name:</label>
-                    <input type="text" id="name" name="name" value="<?= htmlspecialchars($doctor['name']) ?>" required>
+                    <label for="name">
+                        <i class="fas fa-user"></i>
+                        <span>Full Name</span>
+                    </label>
+                    <input type="text" id="name" name="name" value="<?= htmlspecialchars($doctor['name']) ?>" 
+                           required placeholder="Enter your full name">
                 </div>
                 
                 <div class="form-group">
-                    <label for="phone"><i class="fas fa-phone me-2"></i>Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" value="<?= htmlspecialchars($doctor['phone']) ?>" required>
+                    <label for="phone">
+                        <i class="fas fa-phone"></i>
+                        <span>Phone Number</span>
+                    </label>
+                    <input type="tel" id="phone" name="phone" value="<?= htmlspecialchars($doctor['phone']) ?>" 
+                           required placeholder="Enter your phone number">
                 </div>
                 
                 <div class="form-group">
-                    <label for="specialization"><i class="fas fa-stethoscope me-2"></i>Specialization:</label>
-                    <input type="text" id="specialization" name="specialization" value="<?= htmlspecialchars($doctor['specialization']) ?>">
+                    <label for="specialization">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Specialization</span>
+                    </label>
+                    <input type="text" id="specialization" name="specialization" 
+                           value="<?= htmlspecialchars($doctor['specialization']) ?>"
+                           placeholder="Enter your specialization">
                 </div>
                 
                 <div class="form-group">
-                    <label><i class="fas fa-image me-2"></i>Profile Image:</label>
+                    <label for="image-upload">
+                        <i class="fas fa-image"></i>
+                        <span>Profile Image</span>
+                    </label>
                     <input type="file" id="image-upload" name="image" accept="image/*" class="file-input">
                     <label for="image-upload" class="file-label">
-                        <i class="fas fa-cloud-upload-alt me-2"></i>Choose a new profile image
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Choose a new profile image</span>
                     </label>
                 </div>
                 
                 <button type="submit">
-                    <i class="fas fa-save me-2"></i>Update Profile
+                    <i class="fas fa-save"></i>
+                    <span>Save Changes</span>
                 </button>
             </form>
         </div>
