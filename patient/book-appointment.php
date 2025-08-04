@@ -17,68 +17,52 @@ $doctorList = $conn->query("SELECT id, name FROM doctors")->fetch_all(MYSQLI_ASS
 // Fetch patient information
 $patientInfo = null;
 if ($patient_id) {
-    $stmt = $conn->prepare("SELECT name, phone, age, gender FROM patients WHERE id = ?");
-    $stmt->bind_param("i", $patient_id);
-    $stmt->execute();
-    $patientInfo = $stmt->get_result()->fetch_assoc();
+  $stmt = $conn->prepare("SELECT name, phone, age, gender FROM patients WHERE id = ?");
+  $stmt->bind_param("i", $patient_id);
+  $stmt->execute();
+  $patientInfo = $stmt->get_result()->fetch_assoc();
 }
 
 if (!$patient_id) {
-    $error = 'You must be logged in to book an appointment.';
+  $error = 'You must be logged in to book an appointment.';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $date = trim($_POST['appointment_date']);
-    $time = trim($_POST['appointment_time']);
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $date = trim($_POST['appointment_date']);
-    $time = trim($_POST['appointment_time']);
-    $symptoms = trim($_POST['symptoms']);
-    $medical_history = trim($_POST['medical_history']);
-    $appointment_type = trim($_POST['appointment_type']);
-    $notes = trim($_POST['notes']);
+  $date = trim($_POST['appointment_date']);
+  $time = trim($_POST['appointment_time']);
+  $symptoms = trim($_POST['symptoms']);
+  $medical_history = trim($_POST['medical_history']);
+  $appointment_type = trim($_POST['appointment_type']);
+  $notes = trim($_POST['notes']);
 
-    if (!$selectedDoctorId || !$date || !$time || !$symptoms || !$appointment_type) {
-        $error = 'Please fill out all required fields.';
-    } else {
-        $stmt = $conn->prepare("INSERT INTO appointments 
+  if (!$selectedDoctorId || !$date || !$time || !$symptoms || !$appointment_type) {
+    $error = 'Please fill out all required fields.';
+  } else {
+    $stmt = $conn->prepare("INSERT INTO appointments 
             (doctor_id, patient_id, appointment_date, appointment_time, symptoms, medical_history, appointment_type, notes) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("iissssss", 
-            $selectedDoctorId, 
-            $patient_id, 
-            $date, 
-            $time, 
-            $symptoms, 
-            $medical_history, 
-            $appointment_type, 
-            $notes
-        );
+    $stmt->bind_param(
+      "iissssss",
+      $selectedDoctorId,
+      $patient_id,
+      $date,
+      $time,
+      $symptoms,
+      $medical_history,
+      $appointment_type,
+      $notes
+    );
 
-        if ($stmt->execute()) {
-            $success = 'Appointment booked successfully!';
-        } else {
-            $error = 'Failed to book appointment. Please try again.';
-        }
-    }
-}
-
-
-    if (!$selectedDoctorId || !$date || !$time) {
-        $error = 'Please fill out all fields.';
+    if ($stmt->execute()) {
+      $success = 'Appointment booked successfully!';
     } else {
-        $stmt = $conn->prepare("INSERT INTO appointments (doctor_id, patient_id, appointment_date, appointment_time) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("iiss", $selectedDoctorId, $patient_id, $date, $time);
-
-        if ($stmt->execute()) {
-            $success = 'Appointment booked successfully!';
-        } else {
-            $error = 'Failed to book appointment. Please try again.';
-        }
+      $error = 'Failed to book appointment. Please try again.';
     }
   }
-  ?>
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ Mobile scaling -->
@@ -124,12 +108,13 @@ if (!$patient_id) {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, 
-        rgba(34, 70, 210, 0.05),
-        rgba(99, 102, 241, 0.05)
-      );
+      background: linear-gradient(135deg,
+          rgba(34, 70, 210, 0.05),
+          rgba(99, 102, 241, 0.05));
       opacity: 0;
       transition: var(--transition);
+      pointer-events: none;
+      /* ✅ Fixes the interaction bug */
     }
 
     .form-card:hover::before {
@@ -167,7 +152,9 @@ if (!$patient_id) {
       gap: 0.5rem;
     }
 
-    .form-control, .form-select, textarea {
+    .form-control,
+    .form-select,
+    textarea {
       border-radius: var(--border-radius);
       padding: 0.875rem 1rem;
       border: 1px solid rgba(226, 232, 240, 0.8);
@@ -177,12 +164,16 @@ if (!$patient_id) {
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
 
-    .form-control:focus, .form-select:focus, textarea:focus {
+    .form-control:focus,
+    .form-select:focus,
+    textarea:focus {
       border-color: var(--primary-color);
       box-shadow: 0 0 0 4px rgba(34, 70, 210, 0.1);
     }
 
-    .form-control:hover, .form-select:hover, textarea:hover {
+    .form-control:hover,
+    .form-select:hover,
+    textarea:hover {
       border-color: var(--secondary-color);
     }
 
@@ -277,9 +268,11 @@ if (!$patient_id) {
       .form-card {
         padding: 2rem;
       }
+
       h3 {
         font-size: 1.75rem;
       }
+
       .section-title {
         font-size: 0.8125rem;
       }
@@ -289,13 +282,18 @@ if (!$patient_id) {
       .form-card {
         padding: 1.5rem;
       }
-      .form-control, .form-select, textarea {
+
+      .form-control,
+      .form-select,
+      textarea {
         font-size: 0.9375rem;
         padding: 0.75rem;
       }
+
       h3 {
         font-size: 1.5rem;
       }
+
       .row {
         --bs-gutter-x: 1rem;
       }
@@ -324,19 +322,19 @@ if (!$patient_id) {
             <div class="row g-3 mb-4">
               <div class="col-md-6">
                 <label class="form-label"><i class="fas fa-user"></i>Full Name</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['name'] ?? '') ?>" readonly>
+                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['name'] ?? '') ?>">
               </div>
               <div class="col-md-6">
                 <label class="form-label"><i class="fas fa-phone"></i>Phone</label>
-                <input type="tel" class="form-control" value="<?= htmlspecialchars($patientInfo['phone'] ?? '') ?>" readonly>
+                <input type="tel" class="form-control" value="<?= htmlspecialchars($patientInfo['phone'] ?? '') ?>">
               </div>
               <div class="col-md-6">
                 <label class="form-label"><i class="fas fa-birthday-cake"></i>Age</label>
-                <input type="number" class="form-control" value="<?= htmlspecialchars($patientInfo['age'] ?? '') ?>" readonly>
+                <input type="number" class="form-control" value="<?= htmlspecialchars($patientInfo['age'] ?? '') ?>">
               </div>
               <div class="col-md-6">
                 <label class="form-label"><i class="fas fa-venus-mars"></i>Gender</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['gender'] ?? '') ?>" readonly>
+                <input type="text" class="form-control" value="<?= htmlspecialchars($patientInfo['gender'] ?? '') ?>">
               </div>
             </div>
 
@@ -344,11 +342,13 @@ if (!$patient_id) {
             <div class="section-title"><i class="fas fa-notes-medical"></i>Medical Information</div>
             <div class="mb-4">
               <label class="form-label"><i class="fas fa-heartbeat"></i>Primary Symptoms</label>
-              <textarea name="symptoms" class="form-control" rows="3" placeholder="Please describe your symptoms in detail" required></textarea>
+              <textarea name="symptoms" class="form-control" rows="3"
+                placeholder="Please describe your symptoms in detail" required></textarea>
             </div>
             <div class="mb-4">
               <label class="form-label"><i class="fas fa-file-medical"></i>Medical History</label>
-              <textarea name="medical_history" class="form-control" rows="3" placeholder="Any existing conditions, allergies, or medications you're currently taking"></textarea>
+              <textarea name="medical_history" class="form-control" rows="3"
+                placeholder="Any existing conditions, allergies, or medications you're currently taking"></textarea>
             </div>
 
             <!-- Doctor Selection -->
@@ -388,12 +388,22 @@ if (!$patient_id) {
             </div>
             <div class="mb-4">
               <label class="form-label"><i class="fas fa-comment-medical"></i>Additional Notes</label>
-              <textarea name="notes" class="form-control" rows="3" placeholder="Any specific concerns or questions for the doctor?"></textarea>
+              <textarea name="notes" class="form-control" rows="3"
+                placeholder="Any specific concerns or questions for the doctor?"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">
-              <span><i class="fas fa-calendar-check me-2"></i>Schedule Appointment</span>
-            </button>
+            <div class="d-flex flex-column gap-3">
+              <button type="submit" class="btn btn-primary w-100">
+                <span><i class="fas fa-calendar-check me-2"></i>Schedule Appointment</span>
+              </button>
+              
+              <div class="text-center">
+                <span class="text-muted">Not ready to book? </span>
+                <a href="logout.php" class="text-decoration-none" style="color: var(--primary-color); font-weight: 500;">
+                  <i class="fas fa-sign-out-alt me-1"></i>Log out and come back later
+                </a>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -404,4 +414,5 @@ if (!$patient_id) {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
